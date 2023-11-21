@@ -1,3 +1,24 @@
+
+====================================================================================================================================
+# Parker - 11/20/23 
+# before running the app:
+    export SECRET_KEY="pikachu" (mac) / $env:SECRET_KEY="pikachu" (windows)
+    pip install -r requirements.txt
+
+# what I did today:
+- setup the template pretty much as before, except with a slightly different file structure (source code files are all in 'src' for organization)
+    ** this makes python do some weird stuff -- we can play around with this if it ends up not being the move, but if importing, you might need to do absolute imports -> 'from src.app import models' (***instead of 'from from app import models').
+
+Setup a basic template for the file structure - Beat (one to many ->) Layer (one to many ->) Stem
+- index, base, signin, signup, beats (.html)
+- models.py
+- forms.py
+- routes.py
+Setup sign in / sign up / sign out routes
+initialized Alembic (handy python package that helps with db migrations)
+Some basic testing to make sure the routes were somewhat in working condition
+====================================================================================================================================
+
 # beat-layer
 
 # Overview
