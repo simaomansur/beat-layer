@@ -17,6 +17,17 @@ Setup a basic template for the file structure - Beat (one to many ->) Layer (one
 Setup sign in / sign up / sign out routes
 initialized Alembic (handy python package that helps with db migrations)
 Some basic testing to make sure the routes were somewhat in working condition
+
+# Simao - 11/24/23
+# what I did today:
+- changed the 'Beat' model but may be subject to more changes
+- added 'beats' 'beats_new' and 'beat_detail' to routes.py
+- added 'BeatForm' to forms.py
+- added beats.html, beats_new.html, and beat_detail.html to templates
+- created function to create new beats
+- modified signin and signup slightly
+- after sign in takes you to the beats page where you can create a new beat, this adds it to the beats page but no functionality past that yet
+- basic testing and so far it looks good just need to add more functionality to the beats page
 ====================================================================================================================================
 
 # beat-layer
