@@ -1,6 +1,6 @@
 from src.app import app, db, cache
-from src.app.models import User
-from src.app.forms import SignUpForm, SignInForm
+from src.app.models import User, Beat
+from src.app.forms import SignUpForm, SignInForm, BeatForm
 from flask import render_template, redirect, url_for, request, flash
 from flask_login import login_required, login_user, logout_user, current_user
 import bcrypt, uuid
@@ -26,7 +26,7 @@ def users_signin(): # this function is called when the user visits the sign in p
             return render_template('signin.html', form=form) 
         login_user(user)  # Log in the user
         print(user.email) # Print the user's email
-        return redirect(url_for('index')) # redirect to the index page
+        return redirect(url_for('beats')) # render the beats page
     return render_template('signin.html', form=form)
 
 @app.route('/users/signup', methods=['GET', 'POST']) # users/signup is the URL for the sign up page, and the methods are GET and POST
@@ -54,7 +54,7 @@ def users_signup(): # this function is called when the user visits the sign up p
         try: # try to commit the changes
             db.session.commit() # commit the changes
             flash('Account created successfully!') # flash a message
-            return redirect(url_for('beats')) # redirect to the index page
+            return redirect(url_for('users_signin')) # redirect to the sign in page
         except Exception as e: # if an exception occurs
             db.session.rollback() # rollback the changes
             # Log the exception 
@@ -67,4 +67,51 @@ def users_signup(): # this function is called when the user visits the sign up p
 def users_signout():
     logout_user()
     return redirect(url_for('index'))
+
+@login_required
+@app.route('/beats', methods=['GET', 'POST'])
+def beats():
+    beats = Beat.query.all()
+    return render_template('beats.html', beats=beats)
+
+@login_required
+@app.route('/beats/new', methods=['GET', 'POST'])
+def beats_new():
+    form = BeatForm()
+    date = datetime.now()
+    dateFormateed = str(date.strftime("%m/%d/%Y %H:%M"))
+    if form.validate_on_submit():
+        new_beat = Beat(
+            id=str(uuid.uuid4()),
+            title=str(form.title.data),
+            artist=str(current_user.id),
+            description=str(form.description.data),
+            date_added=dateFormateed
+        )
+        
+        print(type(new_beat.id))
+        print(type(new_beat.title))
+        print(type(new_beat.artist))
+        print(type(new_beat.description))
+        print(type(new_beat.date_added))
+        
+        db.session.add(new_beat)
+        try:
+            db.session.commit()
+            flash('Beat created successfully!')
+            return redirect(url_for('beats'))
+        except Exception as e:
+            db.session.rollback()
+            flash('An error occurred while creating your beat. Please try again.')
+            print(e)
+    else:
+        print("Form validation failed")
+        print(form.errors)
+    return render_template('beats_new.html', form=form)
+
+@app.route('/beat/<string:beat_id>')
+def beat_detail(beat_id):
+    beat = Beat.query.filter_by(id=beat_id).first()
+    return render_template('beat_detail.html', beat=beat)
+
 

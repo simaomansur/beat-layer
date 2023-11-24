@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block main %}
+    <h1>New Beat</h1>
+    <!-- Form to create new beats -->
+    <form action="{{ url_for('beats_new') }}" method="POST">
+        {{ form.hidden_tag() }}  <!-- CSRF Token -->
+
+        <!-- Title Field -->
+        <div>
+            {{ form.title.label }}<br>
+            {{ form.title(size=32) }}
+            {% if form.title.errors %}
+                <!-- Display errors for title field -->
+                <div style="color: red;">
+                    {% for error in form.title.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Description Field -->
+        <div>
+            {{ form.description.label }}<br>
+            {{ form.description(size=100) }}
+            {% if form.description.errors %}
+                <!-- Display errors for description field -->
+                <div style="color: red;">
+                    {% for error in form.description.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Submit Button -->
+        <div>
+            {{ form.submit() }}
+        </div>
+    </form>
+{% endblock %}

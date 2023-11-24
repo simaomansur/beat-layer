@@ -13,3 +13,8 @@ class SignInForm(FlaskForm):
     id = StringField('Id', validators=[DataRequired()])
     passwd = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Confirm')
+    
+class BeatForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    description = TextAreaField('Description', validators=[DataRequired()])
+    submit = SubmitField('Confirm')
