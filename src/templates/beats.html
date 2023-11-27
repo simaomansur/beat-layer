@@ -1,15 +1,22 @@
 {% extends 'base.html' %}
 {% block main %}
-    <h1>Home</h1>
-    <!-- list of beats -->
-    <ul>
-        {% for beat in beats %}
-            <li><a href="{{ url_for('beat_detail', beat_id=beat.id) }}">{{ beat.title }}</a></li>
-        {% endfor %}
-    </ul>
-    <!-- button to go to create new beat -->
-    <div id="auth-buttons">
-        <!-- Use an anchor tag instead of a button for navigation -->
-        <a href="{{ url_for('beats_new') }}" class="button">Create New Beat</a>
+    <div class="container">
+        <h1>Home</h1>
+        <div class="content-box" style="background-color: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
+            <!-- List of beats -->
+            <ul style="list-style: none; padding: 0;">
+                {% for beat in beats %}
+                    <li style="background-color: #f4f4f4; margin: 10px 0; padding: 10px; border-radius: 5px;">
+                        <a href="{{ url_for('beat_detail', beat_id=beat.id) }}" style="text-decoration: none; color: darkblue; font-weight: bold;">
+                            {{ beat.title }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+            <!-- Button to create new beat -->
+            <div class="button-container" style="text-align: center; margin-top: 20px;">
+                <a href="{{ url_for('beats_new') }}" class="button" style="text-decoration: none;">Create New Beat</a>
+            </div>
+        </div>
     </div>
 {% endblock %}
