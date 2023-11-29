@@ -28,13 +28,30 @@ Some basic testing to make sure the routes were somewhat in working condition
 - modified signin and signup slightly
 - after sign in takes you to the beats page where you can create a new beat, this adds it to the beats page but no functionality past that yet
 - basic testing and so far it looks good just need to add more functionality to the beats page
+
+# Parker - 11/29/23 
 ====================================================================================================================================
+testing notes:
+----
+    - would be nice if the post signin flash was a bit more descriptive
+        - adding a header and footer could make me feel less lost
+    - back to home should take you back to beats page, not to sign in page
+    - add profiles ?
+~
+done:
+- added new description under overview (below in readme)
+- referenced user id's in created by fields users table (foreign key)
+- changed date to datetime for specifity
+- back to home goes to 'beats' instead of index
+- added audio_file stuff 
+    takes audio file from form
+    saves it to src/app/uploads
+    you can play the song from beat-detail page
 
 # beat-layer
 
 # Overview
-
-Use this section to outline the vision for the product to be developed, including a use case diagram that shows the main user interactions with the product, in order to provide readers with an overview of the project.
+Beat Layer is a dynamic online platform designed for musicians and artists seeking collaborative synergy. By allowing users to contribute their unique 'layers' to existing beats, the app facilitates a musical dialogue where each addition enriches the original track. This virtual studio space not only fosters creativity but also archives the evolution of a beat as it transforms with each new contribution. It's a place where the solitary act of music creation becomes a communal journey, resulting in a tapestry of sounds that reflects the collective genius of its contributors.
 
 # Design
 

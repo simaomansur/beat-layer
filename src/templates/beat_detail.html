@@ -6,6 +6,12 @@
             <p><strong>Date Posted:</strong> {{ beat.date_added }}</p>
             <p><strong>Description:</strong> {{ beat.description }}</p>
             <p><strong>Posted by:</strong> {{ beat.artist }}</p>
+
+            <!-- Audio Player -->
+            <audio controls>
+                <source src="{{ url_for('uploaded_file', filename=beat.audio_file) }}" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
             
             <!-- Audio player (uncomment and update path if applicable) -->
             <!--
@@ -17,7 +23,7 @@
 
             <!-- Back to Home Page -->
             <div class="button-container">
-                <a href="{{ url_for('index') }}" class="button" style="text-decoration: none;">Back to Home</a>
+                <a href="{{ url_for('beats') }}" class="button" style="text-decoration: none;">Back to Home</a>
             </div>
         </div>
     </div>

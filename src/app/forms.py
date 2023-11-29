@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, TextAreaField, DateField, SubmitField
+from wtforms import StringField, PasswordField, TextAreaField, DateField, SubmitField, FileField
 from wtforms.validators import DataRequired
+from flask_wtf.file import FileRequired, FileAllowed
 
 class SignUpForm(FlaskForm):
     id = StringField('Username', validators=[DataRequired()])
@@ -17,4 +18,6 @@ class SignInForm(FlaskForm):
 class BeatForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     description = TextAreaField('Description', validators=[DataRequired()])
-    submit = SubmitField('Confirm')
+    audio_file = FileField('Audio File', validators=[FileRequired(), FileAllowed(['mp3', 'wav'], 'Audio only!')])
+    submit = SubmitField('Create Beat')
+    

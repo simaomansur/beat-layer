@@ -1,16 +1,17 @@
 from src.app import app, db, cache
 from src.app.models import User, Beat
 from src.app.forms import SignUpForm, SignInForm, BeatForm
-from flask import render_template, redirect, url_for, request, flash
+from flask import render_template, redirect, url_for, request, flash, send_from_directory
 from flask_login import login_required, login_user, logout_user, current_user
 import bcrypt, uuid
+from werkzeug.utils import secure_filename
 import os
 from datetime import datetime
 
 @app.route('/')
 @app.route('/index')
 @app.route('/index.html')
-def index(): 
+def index():
     return render_template('index.html')
 
 @app.route('/users/signin', methods=['GET', 'POST']) # users/signin is the URL for the sign in page, and the methods are GET and POST
@@ -78,15 +79,20 @@ def beats():
 @app.route('/beats/new', methods=['GET', 'POST'])
 def beats_new():
     form = BeatForm()
-    date = datetime.now()
-    dateFormateed = str(date.strftime("%m/%d/%Y %H:%M"))
+    # date = datetime.now()
+    # dateFormateed = str(date.strftime("%m/%d/%Y %H:%M"))
     if form.validate_on_submit():
+        audio_file = form.audio_file.data
+        filename = secure_filename(audio_file.filename)
+        audio_file_path = os.path.join('src', 'app', 'uploads', filename)
+        audio_file.save(audio_file_path)
         new_beat = Beat(
-            id=str(uuid.uuid4()),
-            title=str(form.title.data),
-            artist=str(current_user.id),
-            description=str(form.description.data),
-            date_added=dateFormateed
+            id = str(uuid.uuid4()),
+            title = str(form.title.data),
+            artist = str(current_user.id),
+            description = str(form.description.data),
+            audio_file = filename,
+            date_added = datetime.now()
         )
         
         print(type(new_beat.id))
@@ -112,6 +118,11 @@ def beats_new():
 @app.route('/beat/<string:beat_id>')
 def beat_detail(beat_id):
     beat = Beat.query.filter_by(id=beat_id).first()
+    form = BeatForm()
     return render_template('beat_detail.html', beat=beat)
+
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory('src/app/uploads', filename)
 
 

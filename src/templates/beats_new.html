@@ -2,7 +2,7 @@
 {% block main %}
     <h1>New Beat</h1>
     <!-- Form to create new beats -->
-    <form action="{{ url_for('beats_new') }}" method="POST">
+    <form action="{{ url_for('beats_new') }}" method="POST" enctype="multipart/form-data">
         {{ form.hidden_tag() }}  <!-- CSRF Token -->
 
         <!-- Title Field -->
@@ -27,6 +27,20 @@
                 <!-- Display errors for description field -->
                 <div style="color: red;">
                     {% for error in form.description.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Audio File Field -->
+        <div>
+            {{ form.audio_file.label }}<br>
+            {{ form.audio_file() }}
+            {% if form.audio_file.errors %}
+                <!-- Display errors for audio file field -->
+                <div style="color: red;">
+                    {% for error in form.audio_file.errors %}
                         <span>{{ error }}</span>
                     {% endfor %}
                 </div>

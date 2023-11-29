@@ -1,5 +1,6 @@
 from flask import Flask
 import os
+from flask_migrate import Migrate
 
 app = Flask("Beat Layer")
 app.secret_key = os.environ['SECRET_KEY']
@@ -9,6 +10,7 @@ app.static_folder = 'src/static'
 # db initialization
 from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
+migrate = Migrate(app, db)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///beatbank.db'
 db.init_app(app)
 
