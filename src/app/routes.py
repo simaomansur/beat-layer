@@ -119,8 +119,9 @@ def beat_detail(beat_id):
     comments = Comment.query.filter_by(beat_id=beat.id).order_by(Comment.date_posted.desc()).all()
     return render_template('beat_detail.html', beat=beat, comments=comments)
 
+
 @app.route('/uploads/<filename>')
-def uploaded_file(filename):
+def get_uploaded_file(filename):
     return send_from_directory('src/app/uploads', filename)
 
 @app.route('/add-comment/<string:beat_id>', methods=['POST'])
@@ -136,5 +137,35 @@ def add_comment(beat_id):
         flash('Comment cannot be empty.')
     return redirect(url_for('beat_detail', beat_id=beat_id))
 
+#route for '/beat_user/<user.id>' page, shows all beats the user in question. if current_user, show delete button.
+@login_required
+@app.route('/beat_user/<string:user_id>')
+def beat_user(user_id):
+    beats = Beat.query.filter_by(artist=user_id).all()
+    return render_template('beats.html', beats=beats)
 
+@login_required
+@app.route('/beat_user/<string:user_id>/delete/<string:beat_id>')
+def beat_user_delete(user_id, beat_id):
+    beat = Beat.query.get_or_404(beat_id)
+    if beat.artist == user_id:
+        db.session.delete(beat)
+        db.session.commit()
+        flash('Beat deleted successfully!')
+    else:
+        flash('You cannot delete this beat.')
+    return redirect(url_for('beat_user', user_id=user_id))
 
+@login_required
+@app.route('/my_profile')
+def my_profile():
+    return render_template('my_profile.html')
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/github')
+def github():
+    # send user to github page https://github.com/simaomansur/beat-layer in a new tab
+    return redirect("https://github.com/simaomansur/beat-layer", code=302)

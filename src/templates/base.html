@@ -4,12 +4,30 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <title>{{ title }}</title>
+    
 </head>
-<body>
-    <img src="{{ url_for('static', filename='pictures/logo.jpg') }}" alt="logo" class="logo">
 <header>
-    <!-- todo: header -->
+    
+    <nav class="menu-bar">
+        <ul class="navbar">
+            <li><a href="{{ url_for('beats') }}">Beats</a></li>
+            <li><a href="{{ url_for('beat_user', user_id=current_user.id) }}">My Beats</a></li>
+            <li><a href="{{ url_for('my_profile') }}">My Profile</a></li>
+            <li>
+                <a href="#">About </a>
+                <ul class="submenu">
+                    <li><a href="{{ url_for('about') }}">Beat Layer</a></li>
+                    <li><a href="{{ url_for('github') }}">GitHub</a></li>
+                </ul>
+            </li>
+            <li><a href="{{ url_for('users_signout') }}" class="sign-out">Sign Out</a></li>
+        </ul>
+    </nav>
 </header>
+
+<body>
+
+    
 
 <main>
     {% for message in get_flashed_messages() %}
@@ -22,7 +40,7 @@
 </main>
 
 <footer>
-    <!-- todo: add more to footer ? perhaps logo idk -->
+    <img src="{{ url_for('static', filename='pictures/header.png') }}" alt="Beat Layer" class="header-image">
 </footer>
 
 </body>
