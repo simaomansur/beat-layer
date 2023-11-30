@@ -21,25 +21,15 @@ class Beat(db.Model):
     artist = db.Column(db.String, db.ForeignKey('users.id'), nullable=False)
     audio_file = Column(String) # path to audio file
 
-# layers in beat
-class Layer(db.Model):
-    __tablename__ = 'layers'
-    id = db.Column(db.String, primary_key=True)
-    beat_id = db.Column(db.String, db.ForeignKey('beats.id'), nullable=False)
-    name = Column(String) # name of layer
-    created_by = db.Column(db.String, db.ForeignKey('users.id'), nullable=False)
-    date_added = Column(DateTime) # date added to beat bank
-    notes = Column(String) # notes about layer
-    audio_file = Column(String) # path to audio file
-    stems = db.relationship('Stems', backref='layer', lazy=True) # stems/parts in layer
+# comment for specific beat
+class Comment(db.Model):
+    __tablename__ = 'comments'
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.String(500), nullable=False)
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    beat_id = db.Column(db.String(36), db.ForeignKey('beats.id'), nullable=False)
+    user_id = db.Column(db.String, db.ForeignKey('users.id'), nullable=False)  # Assuming users have an 'id' field
 
-# stems/parts in layer
-class Stems(db.Model):
-    __tablename__ = 'stems'
-    id = db.Column(db.String, primary_key=True)
-    layer_id = db.Column(db.String, db.ForeignKey('layers.id'), nullable=False)
-    name = Column(String) # name of stem/part
-    created_by = db.Column(db.String, db.ForeignKey('users.id'), nullable=False)
-    date_added = Column(DateTime) # date added to beat bank
-    notes = Column(String) # notes about stem/part
-    audio_file = Column(String) # path to audio file
+    # Relationships
+    beat = db.relationship('Beat', backref=db.backref('comments', lazy=True))
+    user = db.relationship('User', backref=db.backref('comments', lazy=True))

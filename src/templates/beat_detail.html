@@ -12,14 +12,6 @@
                 <source src="{{ url_for('uploaded_file', filename=beat.audio_file) }}" type="audio/mpeg">
                 Your browser does not support the audio element.
             </audio>
-            
-            <!-- Audio player (uncomment and update path if applicable) -->
-            <!--
-            <audio controls style="width: 100%;">
-                <source src="{{ url_for('static', filename='path/to/beat/file') }}" type="audio/mpeg">
-                Your browser does not support the audio element.
-            </audio>
-            -->
 
             <!-- Back to Home Page -->
             <div class="button-container">
@@ -27,4 +19,25 @@
             </div>
         </div>
     </div>
+
+    <!-- Comments Section -->
+    <div>
+        <h2>Comments</h2>
+        {% for comment in comments %}
+            <div class="comment">
+                <p>{{ comment.user_id }}: {{ comment.content }}</p>
+                <small>Posted on: {{ comment.date_posted }}</small>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Add Comment Form -->
+    {% if current_user.is_authenticated %}
+        <form action="{{ url_for('add_comment', beat_id=beat.id) }}" method="POST">
+            <textarea name="content" required></textarea>
+            <input type="submit" value="Add Comment">
+        </form>
+    {% else %}
+        <p>Please <a href="{{ url_for('login') }}">login</a> to add a comment.</p>
+    {% endif %}
 {% endblock %}

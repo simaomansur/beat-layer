@@ -29,15 +29,14 @@ Some basic testing to make sure the routes were somewhat in working condition
 - after sign in takes you to the beats page where you can create a new beat, this adds it to the beats page but no functionality past that yet
 - basic testing and so far it looks good just need to add more functionality to the beats page
 
-# Parker - 11/29/23 
-====================================================================================================================================
+# Parker - 11/28/23
 testing notes:
 ----
     - would be nice if the post signin flash was a bit more descriptive
         - adding a header and footer could make me feel less lost
     - back to home should take you back to beats page, not to sign in page
     - add profiles ?
-~
+    
 done:
 - added new description under overview (below in readme)
 - referenced user id's in created by fields users table (foreign key)
@@ -47,6 +46,16 @@ done:
     takes audio file from form
     saves it to src/app/uploads
     you can play the song from beat-detail page
+
+# Simao - 11/29/23
+- few chabges to beats page for better readability
+- added ability to comment on the beats detials page
+- did some overall testing and everything seems to be working fine (so far)
+
+notes:
+    - wanted to change the Beat model to add genres but didnt want to have to delete the database and start over
+    - this is something we should probably do in the future and work on together to figure out what we need to do
+====================================================================================================================================
 
 # beat-layer
 

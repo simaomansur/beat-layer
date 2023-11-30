@@ -1,5 +1,5 @@
 from src.app import app, db, cache
-from src.app.models import User, Beat
+from src.app.models import User, Beat, Comment
 from src.app.forms import SignUpForm, SignInForm, BeatForm
 from flask import render_template, redirect, url_for, request, flash, send_from_directory
 from flask_login import login_required, login_user, logout_user, current_user
@@ -79,8 +79,6 @@ def beats():
 @app.route('/beats/new', methods=['GET', 'POST'])
 def beats_new():
     form = BeatForm()
-    # date = datetime.now()
-    # dateFormateed = str(date.strftime("%m/%d/%Y %H:%M"))
     if form.validate_on_submit():
         audio_file = form.audio_file.data
         filename = secure_filename(audio_file.filename)
@@ -117,12 +115,26 @@ def beats_new():
 
 @app.route('/beat/<string:beat_id>')
 def beat_detail(beat_id):
-    beat = Beat.query.filter_by(id=beat_id).first()
-    form = BeatForm()
-    return render_template('beat_detail.html', beat=beat)
+    beat = Beat.query.get_or_404(beat_id)
+    comments = Comment.query.filter_by(beat_id=beat.id).order_by(Comment.date_posted.desc()).all()
+    return render_template('beat_detail.html', beat=beat, comments=comments)
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
     return send_from_directory('src/app/uploads', filename)
+
+@app.route('/add-comment/<string:beat_id>', methods=['POST'])
+@login_required
+def add_comment(beat_id):
+    content = request.form.get('content')
+    if content:
+        comment = Comment(content=content, beat_id=beat_id, user_id=current_user.id)
+        db.session.add(comment)
+        db.session.commit()
+        flash('Your comment has been added.')
+    else:
+        flash('Comment cannot be empty.')
+    return redirect(url_for('beat_detail', beat_id=beat_id))
+
 
 

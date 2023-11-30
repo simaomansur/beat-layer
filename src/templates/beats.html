@@ -8,7 +8,7 @@
                 {% for beat in beats %}
                     <li style="background-color: #f4f4f4; margin: 10px 0; padding: 10px; border-radius: 5px;">
                         <a href="{{ url_for('beat_detail', beat_id=beat.id) }}" style="text-decoration: none; color: darkblue; font-weight: bold;">
-                            {{ beat.title }}
+                            <p><strong>Title: </strong>{{ beat.title }}<strong> Artist: </strong>{{ beat.artist }}</p>
                         </a>
                     </li>
                 {% endfor %}
