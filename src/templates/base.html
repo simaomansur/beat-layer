@@ -11,8 +11,10 @@
     <nav class="menu-bar">
         <ul class="navbar">
             <li><a href="{{ url_for('beats') }}">Beats</a></li>
+            {% if current_user.is_authenticated %}
             <li><a href="{{ url_for('beat_user', user_id=current_user.id) }}">My Beats</a></li>
             <li><a href="{{ url_for('my_profile') }}">My Profile</a></li>
+            {% endif %}
             <li>
                 <a href="#">About </a>
                 <ul class="submenu">
@@ -20,7 +22,9 @@
                     <li><a href="{{ url_for('github') }}">GitHub</a></li>
                 </ul>
             </li>
+            {% if current_user.is_authenticated %}
             <li><a href="{{ url_for('users_signout') }}" class="sign-out">Sign Out</a></li>
+            {% endif %}
         </ul>
     </nav>
 </header>
