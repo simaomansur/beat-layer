@@ -159,7 +159,8 @@ def beat_user_delete(user_id, beat_id):
 @login_required
 @app.route('/my_profile')
 def my_profile():
-    return render_template('my_profile.html')
+    user = User.query.get_or_404(current_user.id)
+    return render_template('my_profile.html', user=user)
 
 @app.route('/about')
 def about():
