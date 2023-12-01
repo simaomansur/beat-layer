@@ -5,19 +5,30 @@ body {
   text-align: center;
   margin: 0;
   padding: 0;
+  height: 100%;
+  padding-top: 150px; /* Keep header at the top */
 }
 
-input[type=text], select, input[type=submit] {
-  background-color: #333333;
-  color: #ffffff;
-  border: 1px solid #555555;
-  padding: 12px 20px;
-  margin: 8px 0;
-  border-radius: 4px;
-  display: inline-block;
+main {
+  min-height: calc(100vh - 200px);
+  padding-bottom: 200px;
 }
 
 header {
+  position: fixed; /* Keeps the header at the top */
+  top: 0; /* Aligns the header at the top of the viewport */
+  left: 0; /* Aligns the header to the left of the viewport */
+  width: 100%; /* Ensures the header spans the full width of the viewport */
+  z-index: 1000; /* Ensures the header stays on top of other elements */
+  background-color: #333333; /* Keep your background color */
+  padding: 1px;
+  text-align: center;
+  font-size: 25px;
+}
+
+
+header {
+  position:fixed;
   font-family: 'Roboto', sans-serif;
   background-color: #333333;
   padding: 1px;
@@ -31,9 +42,13 @@ header {
 }
 
 .container {
-  width: 80%;
+  width: 100%;
+  min-height: 100%;
   margin: auto;
+  margin-bottom: -20px;
+  padding-bottom: 20px;
 }
+
 
 .center-both {
   display: flex;
@@ -171,14 +186,13 @@ nav {
 }
 
 footer {
-    
-    text-align: center;
-    padding: -200px;
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
+  text-align: center;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  clear: both;
 }
+
 
 .login-container {
   max-width: 500px; /* Adjust width as needed */
@@ -230,4 +244,23 @@ input[type="text"]::placeholder {
 .signup-button {
   background-color: #f4f4f48f; /* Light background for contrast */
   color: #131212; /* Dark text color */
+}
+
+.form-container {
+  width: 50%; /* Adjust the width as needed */
+  max-width: 400px; /* Set a maximum width if necessary */
+  margin: auto; /* Center-align the container */
+  text-align: center; /* Center-align the text within the container */
+}
+
+.form-control {
+  width: 100%; /* Make the form controls fill the container */
+  margin-bottom: 15px;
+}
+
+/* Style the labels for better alignment */
+label {
+  display: block; /* Display labels as blocks to stack them vertically */
+  text-align: center; /* Center-align the labels */
+  margin-bottom: 5px; /* Add some spacing between labels and fields */
 }

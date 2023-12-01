@@ -6,9 +6,9 @@
         {{ form.hidden_tag() }}  <!-- CSRF Token -->
 
         <!-- Title Field -->
-        <div>
+        <div class="form-group">
             {{ form.title.label }}<br>
-            {{ form.title(size=32) }}
+            {{ form.title(class="form-control") }}
             {% if form.title.errors %}
                 <!-- Display errors for title field -->
                 <div style="color: red;">
@@ -18,10 +18,11 @@
                 </div>
             {% endif %}
         </div>
-        <!-- Genre field, selector from flask form-->
-        <div>
+
+        <!-- Genre Field -->
+        <div class="form-group">
             {{ form.genre.label }}<br>
-            {{ form.genre() }}
+            {{ form.genre(class="form-control") }}
             {% if form.genre.errors %}
                 <!-- Display errors for genre field -->
                 <div style="color: red;">
@@ -30,10 +31,12 @@
                     {% endfor %}
                 </div>
             {% endif %}
+        </div>
+
         <!-- Description Field -->
-        <div>
+        <div class="form-group">
             {{ form.description.label }}<br>
-            {{ form.description(size=100) }}
+            {{ form.description(class="form-control") }}
             {% if form.description.errors %}
                 <!-- Display errors for description field -->
                 <div style="color: red;">
@@ -45,9 +48,9 @@
         </div>
 
         <!-- Audio File Field -->
-        <div>
+        <div class="form-group">
             {{ form.audio_file.label }}<br>
-            {{ form.audio_file() }}
+            {{ form.audio_file(class="form-control") }}
             {% if form.audio_file.errors %}
                 <!-- Display errors for audio file field -->
                 <div style="color: red;">
@@ -59,8 +62,8 @@
         </div>
 
         <!-- Submit Button -->
-        <div>
-            {{ form.submit() }}
+        <div class="form-group">
+            {{ form.submit(class="btn btn-primary") }}
         </div>
     </form>
 {% endblock %}

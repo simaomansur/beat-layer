@@ -20,7 +20,7 @@ initialized Alembic (handy python package that helps with db migrations)
 Some basic testing to make sure the routes were somewhat in working condition
 
 # Simao - 11/24/23
-# what I did today:
+## what I did today:
 - changed the 'Beat' model but may be subject to more changes
 - added 'beats' 'beats_new' and 'beat_detail' to routes.py
 - added 'BeatForm' to forms.py
@@ -31,14 +31,13 @@ Some basic testing to make sure the routes were somewhat in working condition
 - basic testing and so far it looks good just need to add more functionality to the beats page
 
 # Parker - 11/28/23
-testing notes:
-----
-    - would be nice if the post signin flash was a bit more descriptive
-        - adding a header and footer could make me feel less lost
-    - back to home should take you back to beats page, not to sign in page
-    - add profiles ?
+## testing notes:
+- would be nice if the post signin flash was a bit more descriptive
+    - adding a header and footer could make me feel less lost
+- back to home should take you back to beats page, not to sign in page
+- add profiles ?
     
-done:
+## done:
 - added new description under overview (below in readme)
 - referenced user id's in created by fields users table (foreign key)
 - changed date to datetime for specifity
@@ -53,9 +52,21 @@ done:
 - added ability to comment on the beats detials page
 - did some overall testing and everything seems to be working fine (so far)
 
-notes:
-    - wanted to change the Beat model to add genres but didnt want to have to delete the database and start over
-    - this is something we should probably do in the future and work on together to figure out what we need to do
+## notes:
+- wanted to change the Beat model to add genres but didnt want to have to delete the database and start over
+- this is something we should probably do in the future and work on together to figure out what we need to do
+
+# Simao - 12/1/23
+- added likes to beats
+    - user can only like a beat once
+- changed some layouts and added some styling
+- made pages scrollable
+- footer is now at the bottom of the page
+- header is now fixed at the top of the page
+- signup page style fix
+- create new beat page style fix
+- beats page style fix
+    - still could use some work
 ====================================================================================================================================
 
 # beat-layer

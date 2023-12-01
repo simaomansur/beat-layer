@@ -1,7 +1,7 @@
 from src.app import app, db, cache, mail
-from src.app.models import User, Beat, Comment
+from src.app.models import User, Beat, Comment, Like
 from src.app.forms import SignUpForm, SignInForm, BeatForm, ForgotPasswordForm, ResetPasswordForm, HomeForm
-from flask import render_template, redirect, url_for, request, flash, send_from_directory
+from flask import render_template, redirect, url_for, request, flash, send_from_directory, jsonify
 from flask_login import login_required, login_user, logout_user, current_user
 import bcrypt, uuid
 from werkzeug.utils import secure_filename
@@ -73,11 +73,12 @@ def users_signout():
     logout_user()
     return redirect(url_for('index'))
 
-@login_required
 @app.route('/beats', methods=['GET', 'POST'])
+@login_required
 def beats():
     beats = Beat.query.all()
     return render_template('beats.html', beats=beats)
+
 
 @login_required
 @app.route('/beats/new', methods=['GET', 'POST'])
@@ -143,11 +144,12 @@ def add_comment(beat_id):
     return redirect(url_for('beat_detail', beat_id=beat_id))
 
 #route for '/beat_user/<user.id>' page, shows all beats the user in question. if current_user, show delete button.
-@login_required
 @app.route('/beat_user/<string:user_id>')
+@login_required
 def beat_user(user_id):
     beats = Beat.query.filter_by(artist=user_id).all()
     return render_template('beats.html', beats=beats)
+
 
 @login_required
 @app.route('/beat_user/<string:user_id>/delete/<string:beat_id>')
@@ -264,3 +266,17 @@ def send_password_reset_email(user_email):
     email.body = f'Please click on the link to reset your password: {reset_url}'
 
     mail.send(email)
+    
+@app.route('/like/<beat_id>', methods=['POST'])
+@login_required
+def like_song(beat_id):
+    existing_like = Like.query.filter_by(user_id=current_user.id, beat_id=beat_id).first()
+    if existing_like:
+        # User has already liked this beat, do not add another like
+        return jsonify({"success": False, "error": "Already liked"}), 400
+
+    # If the user hasn't liked this beat yet, proceed to add a new like
+    new_like = Like(user_id=current_user.id, beat_id=beat_id)
+    db.session.add(new_like)
+    db.session.commit()
+    return jsonify({"success": True, "likes": Like.query.filter_by(beat_id=beat_id).count()})

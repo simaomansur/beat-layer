@@ -6,17 +6,45 @@
             <!-- List of beats -->
             <ul style="list-style: none; padding: 0;">
                 {% for beat in beats %}
-                    <li style="background-color: #f4f4f4; margin: 10px 0; padding: 10px; border-radius: 5px;">
-                        <a href="{{ url_for('beat_detail', beat_id=beat.id) }}" style="text-decoration: none; color: darkblue; font-weight: bold;">
-                            <p><strong>Title: </strong>{{ beat.title }}<strong> Artist: </strong>{{ beat.artist }}</p>
-                        </a>
+                    <li>
+                        <div class="beat-card" style="border: 1px solid #ddd; padding: 10px; border-radius: 5px; margin-bottom: 10px;">
+                            <a href="{{ url_for('beat_detail', beat_id=beat.id) }}" style="text-decoration: none;">
+                                <br><strong>Title: </strong>{{ beat.title }}</br>
+                                <br><strong>Artist: </strong>{{ beat.artist }}</br>
+                                <br><strong>Genre: </strong>{{ beat.genre }}</br>
+                            </a>
+                            <br><button onclick="likeSong('{{ beat.id }}', event)">Like</button>
+                            <span id="like-count-{{ beat.id }}">{{ beat.like_count() }}</span> Likes</br>
+                        </div>
                     </li>
                 {% endfor %}
             </ul>
-            <!-- Button to create new beat -->
+            <!-- Button to create a new beat -->
             <div class="button-container" style="text-align: center; margin-top: 20px;">
                 <a href="{{ url_for('beats_new') }}" class="button" style="text-decoration: none;">Create New Beat</a>
             </div>
         </div>
     </div>
+
+    {% if current_user.is_authenticated %}
+    <script>
+        function likeSong(beatId, event) {
+            event.preventDefault(); // Prevents the default action (navigation)
+            fetch('/like/' + beatId, { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById('like-count-' + beatId).innerText = data.likes;
+                    } else {
+                        alert('You have already liked this song.');
+                    }
+                })
+                .catch(error => {
+                    alert('An error occurred.');
+                });
+        }
+    </script>
+    {% else %}
+    <p>Please <a href="{{ url_for('login') }}">login</a> to like a beat.</p>
+    {% endif %}
 {% endblock %}
