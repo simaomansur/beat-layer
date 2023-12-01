@@ -10,7 +10,7 @@
     
     <nav class="menu-bar">
         <ul class="navbar">
-            <li><a href="{{ url_for('beats') }}">Beats</a></li>
+            <li><a href="{{ url_for('beats') }}">Home</a></li>
             {% if current_user.is_authenticated %}
             <li><a href="{{ url_for('beat_user', user_id=current_user.id) }}">My Beats</a></li>
             <li><a href="{{ url_for('my_profile') }}">My Profile</a></li>
@@ -23,7 +23,11 @@
                 </ul>
             </li>
             {% if current_user.is_authenticated %}
-            <li><a href="{{ url_for('users_signout') }}" class="sign-out">Sign Out</a></li>
+                <li><a href="{{ url_for('users_signout') }}" class="sign-out">Sign Out</a></li>
+            {% endif %}
+            {% if not current_user.is_authenticated %}
+                <li><a href="{{ url_for('home') }}">Sign in</a></li>
+                <li><a href="{{ url_for('users_signup') }}">Sign up</a></li>
             {% endif %}
         </ul>
     </nav>
@@ -45,6 +49,7 @@
 
 <footer>
     <img src="{{ url_for('static', filename='pictures/header.png') }}" alt="Beat Layer" class="header-image">
+    <p>© Beat Layer</p>
 </footer>
 
 </body>

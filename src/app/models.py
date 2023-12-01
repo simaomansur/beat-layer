@@ -20,6 +20,7 @@ class Beat(db.Model):
     description = db.Column(db.String(100))
     artist = db.Column(db.String, db.ForeignKey('users.id'), nullable=False)
     audio_file = Column(String) # path to audio file
+    genre = db.Column(db.String(32))
 
 # comment for specific beat
 class Comment(db.Model):

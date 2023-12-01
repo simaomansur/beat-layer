@@ -1,6 +1,7 @@
 from flask import Flask
 import os
 from flask_migrate import Migrate
+from flask_mail import Mail
 
 app = Flask("Beat Layer")
 app.secret_key = os.environ['SECRET_KEY']
@@ -22,6 +23,9 @@ with app.app_context():
 from flask_login import LoginManager
 login_manager = LoginManager()
 login_manager.init_app(app)
+
+from src.app.config import Config
+mail = Mail(app)
 
 from src.app.models import User
 

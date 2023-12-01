@@ -4,6 +4,7 @@
 # before running the app:
     export SECRET_KEY="pikachu" (mac) / $env:SECRET_KEY="pikachu" (windows)
     pip install -r requirements.txt
+    hweaclfuatojowlh (google app pw)
 
 # what I did today:
 - setup the template pretty much as before, except with a slightly different file structure (source code files are all in 'src' for organization)

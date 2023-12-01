@@ -18,7 +18,18 @@
                 </div>
             {% endif %}
         </div>
-
+        <!-- Genre field, selector from flask form-->
+        <div>
+            {{ form.genre.label }}<br>
+            {{ form.genre() }}
+            {% if form.genre.errors %}
+                <!-- Display errors for genre field -->
+                <div style="color: red;">
+                    {% for error in form.genre.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
         <!-- Description Field -->
         <div>
             {{ form.description.label }}<br>

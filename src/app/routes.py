@@ -1,22 +1,26 @@
-from src.app import app, db, cache
+from src.app import app, db, cache, mail
 from src.app.models import User, Beat, Comment
-from src.app.forms import SignUpForm, SignInForm, BeatForm
+from src.app.forms import SignUpForm, SignInForm, BeatForm, ForgotPasswordForm, ResetPasswordForm, HomeForm
 from flask import render_template, redirect, url_for, request, flash, send_from_directory
 from flask_login import login_required, login_user, logout_user, current_user
 import bcrypt, uuid
 from werkzeug.utils import secure_filename
 import os
 from datetime import datetime
+from itsdangerous import URLSafeTimedSerializer
+from flask_mail import Message
 
 @app.route('/')
 @app.route('/index')
 @app.route('/index.html')
 def index():
-    return render_template('index.html')
+    if current_user.is_authenticated:
+        return redirect(url_for('beats'))
+    return redirect(url_for('home'))
 
-@app.route('/users/signin', methods=['GET', 'POST']) # users/signin is the URL for the sign in page, and the methods are GET and POST
-def users_signin(): # this function is called when the user visits the sign in page
-    form = SignInForm() # create a sign in form and use SignInForm() from forms.py
+@app.route('/home', methods=['GET', 'POST']) # home is the URL for the home page, and the methods are GET and POST
+def home():
+    form = HomeForm()
     if form.validate_on_submit(): # if the request is a POST
         user = User.query.filter_by(id=form.id.data).first()  # get the user from the database via id
         if not user: # if the user does not exist.
@@ -24,11 +28,11 @@ def users_signin(): # this function is called when the user visits the sign in p
             return redirect(url_for('index'))
         if not bcrypt.checkpw(form.passwd.data.encode('utf-8'), user.passwd): # Check if the password entered matches the hashed password stored
             flash('Invalid password') # flash a message if it is incorrect.
-            return render_template('signin.html', form=form) 
+            return render_template('home.html', form=form) 
         login_user(user)  # Log in the user
         print(user.email) # Print the user's email
         return redirect(url_for('beats')) # render the beats page
-    return render_template('signin.html', form=form)
+    return render_template('home.html', form=form)
 
 @app.route('/users/signup', methods=['GET', 'POST']) # users/signup is the URL for the sign up page, and the methods are GET and POST
 def users_signup(): # this function is called when the user visits the sign up page
@@ -55,7 +59,7 @@ def users_signup(): # this function is called when the user visits the sign up p
         try: # try to commit the changes
             db.session.commit() # commit the changes
             flash('Account created successfully!') # flash a message
-            return redirect(url_for('users_signin')) # redirect to the sign in page
+            return redirect(url_for('home')) # redirect to the sign in page
         except Exception as e: # if an exception occurs
             db.session.rollback() # rollback the changes
             # Log the exception 
@@ -87,6 +91,7 @@ def beats_new():
         new_beat = Beat(
             id = str(uuid.uuid4()),
             title = str(form.title.data),
+            genre = str(form.genre.data),
             artist = str(current_user.id),
             description = str(form.description.data),
             audio_file = filename,
@@ -170,3 +175,92 @@ def about():
 def github():
     # send user to github page https://github.com/simaomansur/beat-layer in a new tab
     return redirect("https://github.com/simaomansur/beat-layer", code=302)
+
+@app.route('/forgot_password', methods=['GET', 'POST'])
+def forgot_password():
+    form = ForgotPasswordForm()
+    
+    # Check if it's a POST request and the form is valid
+    if request.method == 'POST' and form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user:
+            send_password_reset_email(user.email)
+            flash('An email has been sent with instructions to reset your password.', 'info')
+            return redirect(url_for('index'))
+        else:
+            flash('Invalid email address!', 'error')
+    
+    # For a GET request or if the form is not valid, render the template
+    flash('Error')
+    return render_template('forgot_password.html', form=form)
+
+
+
+@app.route('/reset/<token>', methods=["GET", "POST"])
+def reset_with_token(token):
+    try:
+        print("token: ", token)
+        serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+        email = serializer.loads(
+            token,
+            salt=app.config['SECURITY_PASSWORD_SALT'],
+            max_age=3600  # Token expires after 1 hour
+        )
+    except:
+        flash('The password reset link is invalid or has expired.', 'error')
+        return redirect(url_for('login'))
+
+    form = ResetPasswordForm()
+    if request.method == 'POST':
+        print("request method is POST")
+        print(form.errors)
+    if not form.validate_on_submit():
+        print("form not validated")
+        print(form.errors)
+        return render_template('reset_password.html', form=form, token=token)
+    if form.validate_on_submit():
+        (print("attempting to change password..."))
+        user = User.query.filter_by(email=email).first()
+        if user:
+            salt = bcrypt.gensalt()
+            hashed_password = bcrypt.hashpw(form.password.data.encode('utf-8'), salt)
+            user.password = hashed_password
+            db.session.commit()
+            print("password changed")
+            flash('Your password has been updated!', 'success')
+            return redirect(url_for('home'))
+        else:
+            print("user not found")
+            flash('Unable to reset password. Your reset link may have expired.', 'error')
+        
+    return render_template('reset_password.html', form=form, token=token)
+
+def commit_new_password(token, password):
+    serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+    email = serializer.loads(
+        token,
+        salt=app.config['SECURITY_PASSWORD_SALT'],
+        max_age=3600  # Token expires after 1 hour
+    )
+    user = User.query.filter_by(email=email).first()
+    if user:
+        print("user found, resetting password...")
+        hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+        user.password = hashed_password
+        db.session.commit()
+        flash('Your password has been updated!', 'success')
+        return redirect(url_for('login'))
+    else:
+        flash('Unable to reset password. Your reset link may have expired.', 'error')
+
+def send_password_reset_email(user_email):
+    serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+    
+    token = serializer.dumps(user_email, salt=app.config['SECURITY_PASSWORD_SALT'])
+
+    reset_url = url_for('reset_with_token', token=token, _external=True)
+    
+    email = Message("Password Reset Requested", sender='your@domain.com', recipients=[user_email])
+    email.body = f'Please click on the link to reset your password: {reset_url}'
+
+    mail.send(email)

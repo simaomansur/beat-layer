@@ -18,15 +18,16 @@ input[type=text], select, input[type=submit] {
 }
 
 header {
+  font-family: 'Roboto', sans-serif;
   background-color: #333333;
-  padding: 20px;
+  padding: 1px;
   text-align: center;
-  font-size: 35px;
+  font-size: 25px;
 }
 
 .header-image {
-  width: 300px;
-  height: 120px;
+  width: 150px;
+  height: 60px;
 }
 
 .container {
@@ -42,14 +43,31 @@ header {
 }
 
 .logo {
-  width: 100px;
-  height: 100px;
+  width: 65px;
+  height: 65px;
 }
 
 h1 {
-  color: navy;
+  color: rgb(69, 69, 230);
   font-size: 60px;
   margin: auto;
+}
+
+h2 {
+  color: rgba(69, 69, 230, 0.76);
+  font-size: 40px;
+  margin: auto;
+  /* disable text wrapping */
+  white-space: nowrap;
+  /* center the text */
+  text-align: center;
+}
+
+h3 {
+  color: rgb(69, 69, 230);
+  font-size: 22px;
+  margin: auto;
+  padding: 10px;
 }
 
 table, th, td {
@@ -61,6 +79,13 @@ table, th, td {
 th {
   background-color: darkblue;
   color: white;
+}
+
+.profile-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 .flashes {
@@ -91,14 +116,14 @@ p {
 
 /* Navigation Bar */
 nav {
-  margin: 20px 0;
+  margin: 10px 0;
 }
 
 .navbar {
   list-style: none;
   display: flex;
-  justify-content: space-around;
-  padding: 0;
+  justify-content: left;
+  padding: 55;
   background-color: #333; /* Dark background for navbar */
 }
 
@@ -142,9 +167,67 @@ nav {
 }
 
 .menu-bar a.sign-out {
-  float: right;
   color: white; /* Ensuring sign-out is visible */
 }
 
-/* Additional Styling as needed */
-/* ... */
+footer {
+    
+    text-align: center;
+    padding: -200px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.login-container {
+  max-width: 500px; /* Adjust width as needed */
+  margin: auto;
+  padding: 24px;
+  text-align: center;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+input[type="email"], input[type="password"], input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  background-color: #ccccccb7;
+  border-radius: 4px;
+}
+
+input[type="text"]::placeholder {
+  color: rgba(19, 18, 18, 0.761); 
+}
+
+.forgot-password {
+  font-size: 0.9em;
+  color: #06B2BA; /* Or your theme color */
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 5px;
+}
+
+.login-button, .signup-button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #1f1ce6b6; /* Or your theme color */
+  color: white;
+  cursor: pointer;
+  
+}
+
+.login-button {
+  margin-top: 20px; /* To match the example image spacing */
+}
+
+.signup-button {
+  background-color: #f4f4f48f; /* Light background for contrast */
+  color: #131212; /* Dark text color */
+}
