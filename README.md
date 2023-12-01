@@ -57,6 +57,15 @@ notes:
     - wanted to change the Beat model to add genres but didnt want to have to delete the database and start over
     - this is something we should probably do in the future and work on together to figure out what we need to do
 ====================================================================================================================================
+====================================================================================================================================
+# Parker - 11/20/23 
+- lots of styling: menu bar, dark mode, UX stuff
+- forgot password mostly implemented but still not updating the users password. it sends an email though :D
+- added genres drop down menu
+- cleaned up some file structure stuff (got rid of sign in page. now it's 'home'. if you're already signed in, 'home' returns 'beats'.)
+
+
+
 
 # beat-layer
 
