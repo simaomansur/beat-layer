@@ -67,6 +67,24 @@ Some basic testing to make sure the routes were somewhat in working condition
 - create new beat page style fix
 - beats page style fix
     - still could use some work
+
+# Needed Changes
+- update the beat cards
+- add a profile page
+- add a profile picture
+- add a bio
+- fix create new beat form page so input field widths are not the whole page
+- add sorting to beats page
+- make functionable with docker
+- create a use case diagram
+- create a class diagram
+- create a sequence diagram
+- create a vision statement (The project must have a vision statement that describes what the purpose of the software is, the type of problem it tries to solve, and the target audience.)
+- The main branch must be protected and require a code review before a pull request approval.
+- All source code must have a consistent header comment with a brief description and its author.
+- Code written for this project must comply to PEP8 code style standard.
+- At least one white-box and one black-box test, none of them related to user creation or authentication, must be provided.
+- Test coverage report must be generated using Python's coverage.
 ====================================================================================================================================
 
 # beat-layer
