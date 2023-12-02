@@ -4,7 +4,7 @@
 # before running the app:
     export SECRET_KEY="pikachu" (mac) / $env:SECRET_KEY="pikachu" (windows)
     pip install -r requirements.txt
-    hweaclfuatojowlh (google app pw)
+    hweaclfuatojowlh (google app pw) (in practice we wouldnt put this in the code but for now its fine)
 
 # what I did today:
 - setup the template pretty much as before, except with a slightly different file structure (source code files are all in 'src' for organization)
@@ -56,6 +56,12 @@ Some basic testing to make sure the routes were somewhat in working condition
 - wanted to change the Beat model to add genres but didnt want to have to delete the database and start over
 - this is something we should probably do in the future and work on together to figure out what we need to do
 
+# Parker - 11/30/23
+- lots of styling: menu bar, dark mode, UX stuff
+- forgot password mostly implemented but still not updating the users password. it sends an email though 😄
+added genres drop down menu
+- cleaned up some file structure stuff (got rid of sign in page. now it's 'home'. if you're already signed in, 'home' returns 'beats'.)
+
 # Simao - 12/1/23
 - added likes to beats
     - user can only like a beat once
@@ -69,21 +75,25 @@ Some basic testing to make sure the routes were somewhat in working condition
     - still could use some work
 
 # Needed Changes
+## Parker
 - update the beat cards
 - add a profile page
 - add a profile picture
 - add a bio
 - fix create new beat form page so input field widths are not the whole page
+## Simao
 - add sorting to beats page
 - make functionable with docker
+## Rye
 - create a use case diagram
 - create a class diagram
 - create a sequence diagram
 - create a vision statement (The project must have a vision statement that describes what the purpose of the software is, the type of problem it tries to solve, and the target audience.)
+- At least one white-box and one black-box test, none of them related to user creation or authentication, must be provided.
+## All
 - The main branch must be protected and require a code review before a pull request approval.
 - All source code must have a consistent header comment with a brief description and its author.
-- Code written for this project must comply to PEP8 code style standard.
-- At least one white-box and one black-box test, none of them related to user creation or authentication, must be provided.
+- Code written for this project must comply to PEP8 code style standards
 - Test coverage report must be generated using Python's coverage.
 ====================================================================================================================================
 
