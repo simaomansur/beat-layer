@@ -39,23 +39,23 @@ As a collaborator, I want to be able to download the final version of a song, so
 #### Use Case Diagram
 
 <image goes here>
----
+```
 <code goes here>
----
+```
 
 #### Class Diagram
 
 <image goes here>
----
+```
 <code goes here>
----
+```
 
 #### Sequence Diagram
 
 <image goes here>
----
+```
 <code goes here>
----
+```
 
 ## Development Process 
 
@@ -80,7 +80,7 @@ Share in this section the results of the tests performed to attest to the qualit
 The final product must demonstrate the integrity of at least 5 of the 6 planned user stories. The final product must be packaged in the form of a docker image. In this section, describe the steps needed to generate that image so that others can deploy the product themselves. All files required for the deployment must be available, including the docker file, source/binary code, external package requirements, data files, images, etc. Instructions on how to create a container from the docker image with parameters such as port mapping, environment variables settings, etc., must be described (if needed). 
 
 
----
+```
 # Parker - 11/20/23 
 ## before running the app:
     export SECRET_KEY="pikachu" (mac) / $env:SECRET_KEY="pikachu" (windows)
@@ -176,4 +176,4 @@ added genres drop down menu
 - All source code must have a consistent header comment with a brief description and its author.
 - Code written for this project must comply to PEP8 code style standards
 - Test coverage report must be generated using Python's coverage.
----
+```
