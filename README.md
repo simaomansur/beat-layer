@@ -69,9 +69,9 @@ Some basic testing to make sure the routes were somewhat in working condition
     - still could use some work
 
 # Needed Changes
-- update the beat cards
+- update the beat c ards
 - add a profile page
-- add a profile picture
+- add a profile picture 
 - add a bio
 - fix create new beat form page so input field widths are not the whole page
 - add sorting to beats page
@@ -121,3 +121,10 @@ Share in this section the results of the tests performed to attest to the qualit
 # Deployment 
 
 The final product must demonstrate the integrity of at least 5 of the 6 planned user stories. The final product must be packaged in the form of a docker image. In this section, describe the steps needed to generate that image so that others can deploy the product themselves. All files required for the deployment must be available, including the docker file, source/binary code, external package requirements, data files, images, etc. Instructions on how to create a container from the docker image with parameters such as port mapping, environment variables settings, etc., must be described (if needed). 
+
+
+PLANTTEXT DIAGRAMS
+
+
+
+
