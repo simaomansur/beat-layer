@@ -38,23 +38,23 @@ As a collaborator, I want to be able to download the final version of a song, so
 
 #### Use Case Diagram
 
-<image goes here>
+(image goes here)
 ```
-<code goes here>
+(code goes here)
 ```
 
 #### Class Diagram
 
-<image goes here>
+(image goes here)
 ```
-<code goes here>
+(code goes here)
 ```
 
 #### Sequence Diagram
 
-<image goes here>
+(image goes here)
 ```
-<code goes here>
+(code goes here)
 ```
 
 ## Development Process 
