@@ -1,12 +1,93 @@
+# Beat-Layer
 
-====================================================================================================================================
+## Overview
+Beat Layer is a dynamic online platform designed for musicians and artists seeking collaborative synergy. By allowing users to contribute their unique 'layers' to existing beats, the app facilitates a musical dialogue where each addition enriches the original track. This virtual studio space not only fosters creativity but also archives the evolution of a beat as it transforms with each new contribution. It's a place where the solitary act of music creation becomes a communal journey, resulting in a tapestry of sounds that reflects the collective genius of its contributors.
+
+## Design
+
+### User Stories
+
+#### US#1
+As a songwriter, I want to upload my guitar track with a title and description, so other musicians can understand my vision and add their layers. (DONE)
+
+#### US#2
+As a collaborator, I want to leave feedback on tracks in progress, so I can help improve the collaboration and engage with other users. (DONE)
+
+#### US#3
+As a new user, I want to easily navigate through the app so that I can quickly understand its functionalities.(DONE)
+
+#### US#4
+As a song uploader, I want to receive constructive feedback on my unfinished tracks, so I can make informed decisions on how to develop them further. (DONE)
+
+#### US#5
+As a musician, I want to easily share my recordings with collaborators, so we can quickly exchange ideas and work on the tracks. (DONE)
+
+#### US#6
+As a musician, I want to search for songs by genre or artist, so I can find collaborations that match my interests and skills. (IP)
+
+#### US#7
+As a collaborator, I want to track the progress of songs I'm involved in, so I can see how they evolve over time. (NOT DONE)
+
+#### US#8
+As a returning user, I want to see highlighted collaborations or trending songs on the home page, so I can explore popular content. (NOT DONE)
+
+#### US#9
+As a collaborator, I want to be able to download the final version of a song, so I can use it in my own projects. (NOT DONE)
+
+### Model
+
+#### Use Case Diagram
+
+<image goes here>
+---
+<code goes here>
+---
+
+#### Class Diagram
+
+<image goes here>
+---
+<code goes here>
+---
+
+#### Sequence Diagram
+
+<image goes here>
+---
+<code goes here>
+---
+
+## Development Process 
+
+This section should be used to describe how the scrum methodology was used in this project. As a suggestion, include the following table to summarize how the sprints occurred during the development of this project.
+
+|Sprint#|Goals|Start|End|Done|Observations|
+|---|---|---|---|---|---|
+|1|US#1, US#2|11/24/23|11/30/23|US#1, US#2|No troubles so far making progress but it seems that many stories might not get finished in the short time available|
+|2|US#3, US#4, US#5|12/1/23|12/4/23|US#3, US#4, US#5|Steady progress is still being made. We had to throw out some features to get the project done on time but everything is working so far.|
+|3|US#6, US#7, US#8, US#9|12/5/23|12/8/23|IP|IP|
+
+Use the observations column to report problems encountered during a sprint and/or to reflect on how the team has continuously improved its work.
+
+Feel free to use your own format for this section, as long as you are able to communicate what has been described here.
+
+## Testing 
+
+Share in this section the results of the tests performed to attest to the quality of the developed product, including the coverage of the tests in relation to the written code. There is no minimum code coverage expectation for your tests, other than expecting "some" coverage through at least one white-box and one black-box test.
+
+## Deployment 
+
+The final product must demonstrate the integrity of at least 5 of the 6 planned user stories. The final product must be packaged in the form of a docker image. In this section, describe the steps needed to generate that image so that others can deploy the product themselves. All files required for the deployment must be available, including the docker file, source/binary code, external package requirements, data files, images, etc. Instructions on how to create a container from the docker image with parameters such as port mapping, environment variables settings, etc., must be described (if needed). 
+
+
+---
 # Parker - 11/20/23 
-# before running the app:
+## before running the app:
     export SECRET_KEY="pikachu" (mac) / $env:SECRET_KEY="pikachu" (windows)
     pip install -r requirements.txt
     hweaclfuatojowlh (google app pw) (in practice we wouldnt put this in the code but for now its fine)
 
-# what I did today:
+## what I did today:
 - setup the template pretty much as before, except with a slightly different file structure (source code files are all in 'src' for organization)
     ** this makes python do some weird stuff -- we can play around with this if it ends up not being the move, but if importing, you might need to do absolute imports -> 'from src.app import models' (***instead of 'from from app import models').
 
@@ -75,12 +156,8 @@ added genres drop down menu
     - still could use some work
 
 # Needed Changes
-<<<<<<< HEAD
-- update the beat c ards
-=======
 ## Parker
 - update the beat cards
->>>>>>> 664cbed7771f9b3eb17aef364d8e37541b83a23b
 - add a profile page
 - add a profile picture 
 - add a bio
@@ -99,46 +176,4 @@ added genres drop down menu
 - All source code must have a consistent header comment with a brief description and its author.
 - Code written for this project must comply to PEP8 code style standards
 - Test coverage report must be generated using Python's coverage.
-====================================================================================================================================
-
-# beat-layer
-
-# Overview
-Beat Layer is a dynamic online platform designed for musicians and artists seeking collaborative synergy. By allowing users to contribute their unique 'layers' to existing beats, the app facilitates a musical dialogue where each addition enriches the original track. This virtual studio space not only fosters creativity but also archives the evolution of a beat as it transforms with each new contribution. It's a place where the solitary act of music creation becomes a communal journey, resulting in a tapestry of sounds that reflects the collective genius of its contributors.
-
-# Design
-
-## User Stories
-
-Describe the user stories designed for the project, including clear acceptance criteria and point estimate for each of them. User stories must be consistent with the use case diagram. Refer to the user stories using US#1, US#2, etc. At least one of the user stories, not related to user creation or authentication, must be detailed by a sequence diagram. 
-
-## Model 
-
-At a minimum, this section should have a class diagram that succinctly describes the main classes designed for this project, as well as their associations.
-
-# Development Process 
-
-This section should be used to describe how the scrum methodology was used in this project. As a suggestion, include the following table to summarize how the sprints occurred during the development of this project.
-
-|Sprint#|Goals|Start|End|Done|Observations|
-|---|---|---|---|---|---|
-|1|US#1, US#2, ...|mm/dd/23|mm/dd/23|US#1|...|
-
-Use the observations column to report problems encountered during a sprint and/or to reflect on how the team has continuously improved its work.
-
-Feel free to use your own format for this section, as long as you are able to communicate what has been described here.
-
-# Testing 
-
-Share in this section the results of the tests performed to attest to the quality of the developed product, including the coverage of the tests in relation to the written code. There is no minimum code coverage expectation for your tests, other than expecting "some" coverage through at least one white-box and one black-box test.
-
-# Deployment 
-
-The final product must demonstrate the integrity of at least 5 of the 6 planned user stories. The final product must be packaged in the form of a docker image. In this section, describe the steps needed to generate that image so that others can deploy the product themselves. All files required for the deployment must be available, including the docker file, source/binary code, external package requirements, data files, images, etc. Instructions on how to create a container from the docker image with parameters such as port mapping, environment variables settings, etc., must be described (if needed). 
-
-
-PLANTTEXT DIAGRAMS
-
-
-
-
+---
