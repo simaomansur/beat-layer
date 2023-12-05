@@ -76,6 +76,9 @@ def users_signout():
 @login_required
 @app.route('/beats', methods=['GET'])
 def beats():
+    if not current_user.is_authenticated:
+        flash('You must be logged in to view this page.')
+        return redirect(url_for('home'))
     genre = request.args.get('genre')
     if genre:
         beats = Beat.query.filter_by(genre=genre).all()
@@ -156,7 +159,7 @@ def beat_user(user_id):
 
 
 @login_required
-@app.route('/beat_user/<string:user_id>/delete/<string:beat_id>')
+@app.route('/beat_user/<string:user_id>/delete/<string:beat_id>', methods=['POST'])
 def beat_user_delete(user_id, beat_id):
     beat = Beat.query.get_or_404(beat_id)
     if beat.artist == user_id:
