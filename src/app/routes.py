@@ -1,6 +1,6 @@
 from src.app import app, db, cache, mail
 from src.app.models import User, Beat, Comment, Like
-from src.app.forms import SignUpForm, SignInForm, BeatForm, ForgotPasswordForm, ResetPasswordForm, HomeForm
+from src.app.forms import SignUpForm, BeatForm, ForgotPasswordForm, ResetPasswordForm, HomeForm
 from flask import render_template, redirect, url_for, request, flash, send_from_directory, jsonify
 from flask_login import login_required, login_user, logout_user, current_user
 import bcrypt, uuid
