@@ -212,9 +212,10 @@ def reset_with_token(token):
         serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
         email = serializer.loads(
             token,
-            salt=app.config['SECURITY_PASSWORD_SALT'],
+            salt = app.config['SECURITY_PASSWORD_SALT'],
             max_age=3600  # Token expires after 1 hour
         )
+        print("email: ", email)
     except:
         flash('The password reset link is invalid or has expired.', 'error')
         return redirect(url_for('login'))
@@ -229,32 +230,35 @@ def reset_with_token(token):
         return render_template('reset_password.html', form=form, token=token)
     if form.validate_on_submit():
         (print("attempting to change password..."))
+        print('email: ', email)
         user = User.query.filter_by(email=email).first()
+        print('user: ', user)
         if user:
             salt = bcrypt.gensalt()
             hashed_password = bcrypt.hashpw(form.password.data.encode('utf-8'), salt)
-            user.password = hashed_password
+            user.passwd = hashed_password
             db.session.commit()
             print("password changed")
             flash('Your password has been updated!', 'success')
+            print(form.errors)
             return redirect(url_for('home'))
         else:
             print("user not found")
             flash('Unable to reset password. Your reset link may have expired.', 'error')
-        
+
     return render_template('reset_password.html', form=form, token=token)
 
 def commit_new_password(token, password):
     serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
     email = serializer.loads(
         token,
-        salt=app.config['SECURITY_PASSWORD_SALT'],
+        salt = app.config['SECURITY_PASSWORD_SALT'],
         max_age=3600  # Token expires after 1 hour
     )
     user = User.query.filter_by(email=email).first()
     if user:
         print("user found, resetting password...")
-        hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+        hashed_password = bcrypt.hashpw(password.encode('utf-8'), email.salt)
         user.password = hashed_password
         db.session.commit()
         flash('Your password has been updated!', 'success')
@@ -266,12 +270,11 @@ def send_password_reset_email(user_email):
     serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
     
     token = serializer.dumps(user_email, salt=app.config['SECURITY_PASSWORD_SALT'])
-
+    user_id = User.query.filter_by(email=user_email).first().id
     reset_url = url_for('reset_with_token', token=token, _external=True)
     
     email = Message("Password Reset Requested", sender='your@domain.com', recipients=[user_email])
-    email.body = f'Please click on the link to reset your password: {reset_url}'
-
+    email.body = f'Username: {user_id}\n\nTo reset your password, visit the following link:\n{reset_url}\n\nIf you did not make this request then simply ignore this email and no changes will be made.'
     mail.send(email)
     
 @app.route('/like/<beat_id>', methods=['POST'])
