@@ -38,23 +38,191 @@ As a collaborator, I want to be able to download the final version of a song, so
 
 #### Use Case Diagram
 
-(image goes here)
+![Use Case Diagram](src/static/pictures/UseCase.png)
 ```
-(code goes here)
+# @startuml
+# !define ICONURL https://raw.githubusercontent.com/rabelenda/cicon-plantuml-sprites/v1.0
+
+# !define USERURL ICONURL/user1/white/person_white_48dp.png
+# !define COMPUTERURL ICONURL/dev/computer_screen_dev_48dp.png
+# !define DATABASEURL ICONURL/data/database_data_48dp.png
+# !define CONTROLLERURL ICONURL/device/device_hub_device_hub_48dp.png
+# !define ACTORURL ICONURL/avatar/avatar_48dp.png
+# !define MAILURL ICONURL/communication/mail_outline_communication_48dp.png
+# !define LIKEURL ICONURL/action/thumb_up_thumb_up_48dp.png
+
+# !define AUTHUSER actor
+
+# actor User as AUTHUSER #white
+
+# rectangle "Web Application" {
+#   [Home]
+#   [Signup]
+#   [Signout]
+#   [Beats]
+#   [New Beat]
+#   [Beat Detail]
+#   [Add Comment]
+#   [User Profile]
+#   [Forgot Password]
+#   [Reset Password]
+#   [Like Beat]
+
+#   [Home] --> (AUTHUSER)
+
+#   [Signup] --> (AUTHUSER)
+
+#   [Signout] --> (AUTHUSER)
+
+#   [Beats] --> (AUTHUSER)
+
+#   [New Beat] --> (AUTHUSER)
+
+#   [Beat Detail] --> (AUTHUSER)
+
+#   [Add Comment] --> (AUTHUSER)
+
+#   [User Profile] --> (AUTHUSER)
+
+#   [Forgot Password] --> (AUTHUSER)
+
+#   [Reset Password] --> (AUTHUSER)
+
+#   [Like Beat] --> (AUTHUSER)
+# }
+
+# @enduml
 ```
 
 #### Class Diagram
 
-(image goes here)
+![Class Diagram](src/static/pictures/BLJ1JE1.PNG)
 ```
 (code goes here)
+```
+# @startuml
+# class User {
+#   - id: String
+#   - email: String
+#   - passwd: String
+# }
+
+# class Beat {
+#   - id: String
+#   - title: String
+#   - genre: String
+#   - artist: String
+#   - description: String
+#   - audio_file: String
+#   - date_added: DateTime
+# }
+
+# class Comment {
+#   - id: String
+#   - content: String
+#   - date_posted: DateTime
+# }
+
+# class Like {
+#   - id: String
+#   - user_id: String
+#   - beat_id: String
+# }
+
+# class SignUpForm {
+#   + id: String
+#   + email_address: String
+#   + passwd: String
+#   + passwd_confirm: String
+# }
+
+# class SignInForm {
+#   + id: String
+#   + passwd: String
+# }
+
+# class BeatForm {
+#   + title: String
+#   + genre: String
+#   + description: String
+#   + audio_file: File
+# }
+
+# class ForgotPasswordForm {
+#   + email: String
+# }
+
+# class ResetPasswordForm {
+#   + password: String
+#   + password_confirm: String
+# }
+
+# class HomeForm {
+#   + id: String
+#   + passwd: String
+# }
+
+# User "1" -- "0..*" Beat : has
+# User "1" -- "0..*" Comment : writes
+# User "1" -- "0..*" Like : likes
+# SignUpForm --|> User
+# SignInForm --|> User
+# BeatForm --|> Beat
+# ForgotPasswordForm --|> User
+# ResetPasswordForm --|> User
+# HomeForm --|> User
+# @enduml
 ```
 
 #### Sequence Diagram
 
-(image goes here)
+BLJ1JE1.png
+
+![Sequence Diagram](src/static/pictures/Sequence.PNG)
+
+
 ```
-(code goes here)
+# @startuml
+
+# actor User
+
+# database Database
+
+# User -> FlaskApp: Open website
+# activate FlaskApp
+# FlaskApp --> FlaskApp: Check if user is authenticated
+# note right: If authenticated, redirect to beats
+# FlaskApp -> FlaskApp: Redirect to home
+# FlaskApp --> FlaskApp: Render home page
+# FlaskApp -> User: Display home page
+
+# User -> FlaskApp: Login
+# activate FlaskApp
+# FlaskApp -> FlaskApp: Validate form
+# FlaskApp -> Database: Query user
+# Database --> FlaskApp: Return user data
+# FlaskApp -> FlaskApp: Check password
+# FlaskApp -> FlaskApp: Log in user
+# FlaskApp -> FlaskApp: Redirect to beats
+# FlaskApp --> User: Display beats
+
+# User -> FlaskApp: View beat details
+# activate FlaskApp
+# FlaskApp -> Database: Query beat details
+# Database --> FlaskApp: Return beat details
+# FlaskApp -> FlaskApp: Render beat details
+# FlaskApp --> User: Display beat details
+
+# User -> FlaskApp: Add comment
+# activate FlaskApp
+# FlaskApp -> FlaskApp: Validate comment
+# FlaskApp -> Database: Add comment to database
+# Database --> FlaskApp: Confirm comment added
+# FlaskApp --> User: Display success message
+
+# deactivate FlaskApp
+
+# @enduml
 ```
 
 ## Development Process 
