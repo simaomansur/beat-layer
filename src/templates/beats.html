@@ -2,6 +2,17 @@
 {% block main %}
     <div class="container">
         <h1>Beats</h1>
+        <div class="genre-filter" style="margin-bottom: 20px;">
+            <form action="{{ url_for('beats') }}" method="get">
+                <select name="genre" id="genre-select" style="padding: 5px; margin-right: 10px;">
+                    <option value="">Select Genre (All Beats)</option>
+                    <option value="rock">Rock</option>
+                    <option value="electronic">Electronic</option>
+                    <option value="jazz">Jazz</option>
+                </select>
+                <input type="submit" value="Search">
+            </form>
+        </div>        
         <div class="content-box" style="background-color: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
             <!-- List of beats -->
             <ul style="list-style: none; padding: 0;">

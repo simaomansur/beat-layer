@@ -73,12 +73,16 @@ def users_signout():
     logout_user()
     return redirect(url_for('index'))
 
-@app.route('/beats', methods=['GET', 'POST'])
 @login_required
+@app.route('/beats', methods=['GET'])
 def beats():
-    beats = Beat.query.all()
+    genre = request.args.get('genre')
+    if genre:
+        beats = Beat.query.filter_by(genre=genre).all()
+    else:
+        beats = Beat.query.all()
+    
     return render_template('beats.html', beats=beats)
-
 
 @login_required
 @app.route('/beats/new', methods=['GET', 'POST'])

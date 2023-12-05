@@ -301,6 +301,10 @@ added genres drop down menu
 - beats page style fix
     - still could use some work
 
+# Simao - 12/4/23
+- added search by genre functionality
+- updated read me to feature information about the project
+
 # Needed Changes
 ## Parker
 - update the beat cards
