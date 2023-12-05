@@ -1,6 +1,6 @@
 from src.app import app, db, cache, mail
 from src.app.models import User, Beat, Comment, Like
-from src.app.forms import SignUpForm, BeatForm, ForgotPasswordForm, ResetPasswordForm, HomeForm
+from src.app.forms import SignUpForm, BeatForm, ForgotPasswordForm, ResetPasswordForm, HomeForm, MyProfileForm
 from flask import render_template, redirect, url_for, request, flash, send_from_directory, jsonify
 from flask_login import login_required, login_user, logout_user, current_user
 import bcrypt, uuid
@@ -171,10 +171,29 @@ def beat_user_delete(user_id, beat_id):
     return redirect(url_for('beat_user', user_id=user_id))
 
 @login_required
-@app.route('/my_profile')
+@app.route('/my_profile', methods=['GET', 'POST'])
 def my_profile():
-    user = User.query.get_or_404(current_user.id)
-    return render_template('my_profile.html', user=user)
+    form = MyProfileForm()
+    if form.validate_on_submit():
+        if form.profile_pic.data:
+            new_profile_pic = form.profile_pic.data
+            filename = secure_filename(new_profile_pic.filename)
+            filepath = os.path.join('src', 'app', 'uploads', 'profile_pictures', filename)
+            print('saving profile pic to: ', filepath)
+            # save the new profile pic as current_user.id.jpg (or png or whatever) ?
+            
+            new_profile_pic.save(filepath)
+            print('setting profile pic to: ', filepath)
+            current_user.profile_pic = filepath
+
+        current_user.bio = form.bio.data  # Update bio
+        db.session.commit()
+        return redirect(url_for('my_profile'))
+
+    form.bio.data = current_user.bio  # Prepopulate bio field with current bio
+    print(current_user.profile_pic)
+    return render_template('my_profile.html', form=form, user=current_user)
+
 
 @app.route('/about')
 def about():
@@ -202,8 +221,6 @@ def forgot_password():
     # For a GET request or if the form is not valid, render the template
     flash('Error')
     return render_template('forgot_password.html', form=form)
-
-
 
 @app.route('/reset/<token>', methods=["GET", "POST"])
 def reset_with_token(token):

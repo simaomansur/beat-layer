@@ -39,3 +39,7 @@ class ResetPasswordForm(FlaskForm):
     submit = SubmitField('Reset Password')
     email = EmailField('Email')
     
+class MyProfileForm(FlaskForm):
+    bio = TextAreaField('Bio')
+    profile_pic = FileField('Profile Picture', validators=[FileAllowed(['jpg', 'png'], 'Images only!')])
+    submit = SubmitField('Update Profile')
