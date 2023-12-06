@@ -21,38 +21,32 @@
                         {% set profile_pic = beat_dict.profile_pic %}
                         <li>
                             <div class="beat-card" style="border: 1px solid #ddd; padding: 10px; border-radius: 5px; margin-bottom: 10px;">
+                                <!-- Anchor tag wraps the content -->
+                                <a href="{{ url_for('beat_detail', beat_id=beat.id) }}" style="display: block; color: inherit; text-decoration: none;">
                                     <div>
-                                    {% if profile_pic %}
-                                        <img src="{{ url_for('static', filename=profile_pic) }}" alt="Artist Profile Picture", class="profile-pic-small">
-                                    {% else %}
-                                        <img src="{{ url_for('static', filename='pictures/default_profile_pic.jpg') }}" alt="Default Profile Picture", class="profile-pic-small">
-                                    {% endif %}
-                                        <h2>Title: {{ beat.title }} </h2>
-                                        <h2>Artist: {{ beat.artist }} </h2>
-                                        <h2>Genre: {{ beat.genre }} </h2>
+                                        {% if profile_pic %}
+                                            <img src="{{ url_for('static', filename=profile_pic) }}" alt="Artist Profile Picture" class="profile-pic-small">
+                                        {% else %}
+                                            <img src="{{ url_for('static', filename='pictures/default_profile_pic.jpg') }}" alt="Default Profile Picture" class="profile-pic-small">
+                                        {% endif %}
+                                        <h2>Title: {{ beat.title }}</h2>
+                                        <h2>Artist: {{ beat.artist }}</h2>
+                                        <h2>Genre: {{ beat.genre }}</h2>
                                     </div>
-                                <div class="beat-card-actions">
-                                    <!-- Like button and Like count on the left -->
-                                    <div class="like-section">
-                                        <button onclick="likeSong('{{ beat.id }}', event)" class="button-small">Like</button>
-                                        <span class="likes-amount" id="like-count-{{ beat.id }}">{{ beat.like_count() }}</span>
-                                        <div class="likes-label">Likes</div>
-                                    </div>
-                                
-                                    <!-- Comments button in the center -->
-                                    <div class="comments-section">
-                                        <button onclick="location.href='{{ url_for('beat_detail', beat_id=beat.id) }}'" class="button-small comments-button">Comments</button>
-                                    </div>
-                                
-                                    <!-- Delete button on the right (only shown if the current user is the artist) -->
-                                    {% if beat.artist == current_user.id %}
-                                        <div class="delete-section">
-                                            <form action="{{ url_for('beat_user_delete', user_id=current_user.id, beat_id=beat.id) }}" method="POST" onsubmit="return confirmDelete()">
+                                    <div class="beat-card-actions" style="display: flex; align-items: center; justify-content: start;">
+                                        <!-- Container for like button and count -->
+                                        <div style="display: flex; align-items: center;">
+                                            <button onclick="likeSong('{{ beat.id }}', event)" class="button-small">Like</button>
+                                            <span class="likes-amount" id="like-count-{{ beat.id }}" style="margin-left: 10px;">{{ beat.like_count() }}</span>
+                                        </div>
+                                        
+                                        {% if beat.artist == current_user.id %}
+                                            <form action="{{ url_for('beat_user_delete', user_id=current_user.id, beat_id=beat.id) }}" method="POST" onsubmit="return confirmDelete(event)" style="margin-left: auto;">
                                                 <input type="submit" value="Delete Beat" class="button-small">
                                             </form>
-                                        </div>
-                                    {% endif %}
-                                </div>                                  
+                                        {% endif %}
+                                    </div>
+                                </a>
                             </div>
                         </li>
                     {% endfor %}

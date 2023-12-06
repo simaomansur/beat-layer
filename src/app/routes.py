@@ -163,12 +163,18 @@ def beat_user(user_id):
 @app.route('/beat_user/<string:user_id>/delete/<string:beat_id>', methods=['POST'])
 def beat_user_delete(user_id, beat_id):
     beat = Beat.query.get_or_404(beat_id)
+
     if beat.artist == user_id:
+        # Delete all comments associated with the beat
+        Comment.query.filter_by(beat_id=beat.id).delete()
+
+        # Now delete the beat
         db.session.delete(beat)
         db.session.commit()
-        flash('Beat deleted successfully!')
+        flash('Beat and associated comments deleted successfully!')
     else:
         flash('You cannot delete this beat.')
+
     return redirect(url_for('beat_user', user_id=user_id))
 
 @login_required
