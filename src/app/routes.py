@@ -81,11 +81,11 @@ def beats():
         return redirect(url_for('home'))
     genre = request.args.get('genre')
     if genre:
-        beats = Beat.query.filter_by(genre=genre).all()
+        beat_tuples = Beat.query.filter_by(genre=genre).join(User, User.id == Beat.artist).add_columns(User.profile_pic).all()
     else:
-        beats = Beat.query.all()
-    
-    return render_template('beats.html', beats=beats)
+        beat_tuples = Beat.query.join(User, User.id == Beat.artist).add_columns(User.profile_pic).all()
+    beats_with_pics = [{'beat': beat, 'profile_pic': profile_pic} for beat, profile_pic in beat_tuples]
+    return render_template('beats.html', beats=beats_with_pics)
 
 @login_required
 @app.route('/beats/new', methods=['GET', 'POST'])
@@ -130,7 +130,8 @@ def beats_new():
 def beat_detail(beat_id):
     beat = Beat.query.get_or_404(beat_id)
     comments = Comment.query.filter_by(beat_id=beat.id).order_by(Comment.date_posted.desc()).all()
-    return render_template('beat_detail.html', beat=beat, comments=comments)
+    user = User.query.filter_by(id=beat.artist).first()
+    return render_template('beat_detail.html', beat=beat, comments=comments, user=user)
 
 
 @app.route('/uploads/<filename>')
@@ -306,3 +307,9 @@ def like_song(beat_id):
     db.session.add(new_like)
     db.session.commit()
     return jsonify({"success": True, "likes": Like.query.filter_by(beat_id=beat_id).count()})
+
+@app.context_processor
+def utility_processor():
+    def get_user(user_id):
+        return User.query.get(user_id)
+    return dict(get_user=get_user)

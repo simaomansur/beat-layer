@@ -6,22 +6,22 @@
             {{ form.hidden_tag() }}
             <div class="profile-container">
                 <div class="profile-image">
-                    <img src="{{ url_for('static', filename=user.profile_pic) }}" alt="Profile Picture" class="profile-image">
+                    <img src="{{ url_for('static', filename=user.profile_pic) if user.profile_pic else url_for('static', filename='pictures/default_profile_pic.jpg') }}" alt="Profile Picture" class="profile-image">
                 </div>
                 <div class="form-group">
-                    {{ form.profile_pic(class="form-control") }}
+                    {{ form.profile_pic(class="form-label-home") }}
                 </div>
                 <div class="profile-info">
                     <div class="form-group">
-                        <label for="username">Username:</label>
+                        <label class="form-label-home", for="username">Username:</label>
                         <p id="username">{{ user.id }}</p>
                     </div>
                     <div class="form-group">
-                        <label for="email">Email:</label>
+                        <label class="form-label-home", for="email">Email:</label>
                         <p id="email">{{ user.email }}</p>
                     </div>
                     <div class="form-group">
-                        <label for="bio">Bio:</label>
+                        <label class="form-label-home", for="bio">Bio:</label>
                         {{ form.bio }}
                     </div>
                 </div>

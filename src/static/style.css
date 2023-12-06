@@ -124,6 +124,17 @@ p {
   cursor: pointer;
 }
 
+
+
+.beat-card-likes {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+
 /* Navigation Bar */
 nav {
   margin: 10px 0;
@@ -198,6 +209,8 @@ footer {
 
 .input-group {
   margin-bottom: 20px;
+  width: 90%;
+
 }
 
 input[type="email"], input[type="password"], input[type="text"] {
@@ -207,6 +220,25 @@ input[type="email"], input[type="password"], input[type="text"] {
   border: 1px solid #ccc;
   background-color: #ccccccb7;
   border-radius: 4px;
+}
+
+.input-group, .button-container input[type="submit"] {
+  width: 100%; /* Adjust as needed, but keep consistent */
+}
+
+.form-control, .button-container input[type="submit"] {
+  padding: 10px; /* Ensure consistent padding */
+  margin: 0; /* Reset any default margins */
+}
+
+
+input[type="email"], input[type="password"], input[type="text"], .button-container input[type="submit"] {
+  box-sizing: border-box;
+}
+.button-container {
+  text-align: center;
+  padding: 0; /* Reset padding */
+  margin-top: 20px;
 }
 
 input[type="text"]::placeholder {
@@ -248,18 +280,72 @@ input[type="text"]::placeholder {
   text-align: center; /* Center-align the text within the container */
 }
 
-.form-control {
-  width: 100%; /* Make the form controls fill the container */
-  margin-bottom: 15px;
-  padding-left: 58px;
+.form-label-home {
+  display: block; /* Display labels as blocks to stack them vertically */
+  text-align: center; /* Center-align the labels */
+  margin-bottom: 15px; /* Add some spacing between labels and fields */
+  background-color: #555555a4;
+  padding: 4px;
 }
 
-/* Style the labels for better alignment */
+.beat-card {
+  /* ... existing styles ... */
+  display: flex;
+  flex-direction: column;
+}
+
+.beat-card-likes span {
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.like-button, .like-count {
+  float: left; /* Floats the like button and count to the left */ /* Adds spacing between the button and count */
+}
+
+.delete-form {
+  float: right; /* Floats the delete form to the right */
+}
+
+.beat-card-actions {
+  margin-top: auto; /* Pushes the action buttons to the bottom of the container */
+  display: flex;
+  justify-content: space-between; /* This will space out the like and delete buttons */
+  overflow: hidden; /* Contains floated elements within the beat-card-actions div */
+}
+
+.login-button .signup-form {
+  padding-left: 555px;
+  text-align: center; /* To match the example image spacing */
+}
+
+.button-container {
+  text-align: center;
+  padding: 0; /* Reset padding */
+  margin-top: 20px;
+}
+
+.signup-form .input-group {
+  margin-bottom: 10px; /* Adjusted margin for individual form pages */
+}
+
+.signup-form .button-container .login-button {
+  width: 90%; /* Ensure the button width is consistent with the form */
+}
+
 label {
   display: block; /* Display labels as blocks to stack them vertically */
   text-align: center; /* Center-align the labels */
-  margin-bottom: 10px; /* Add some spacing between labels and fields */
-  background-color: #555555a4;
+  margin-bottom: 1px; /* Add some spacing between labels and fields, make the background taller vertically */
+  padding: 4px;
+  border-radius: 25px;
+  color: white;
+  background:none;
+}
+
+.form-control {
+  width: 100%; /* Make the form controls fill the container */
+  margin-bottom: 15px;
 }
 
 img.profile-pic {
@@ -269,6 +355,16 @@ img.profile-pic {
   margin: auto;
   display: block;
   margin-bottom: 20px;
+}
+
+.profile-pic-small {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+  display: block; /* Display block to enable margin auto */
+  float: left; /* Aligns the image to the left */
+  margin-right: 10px; /* Adds some space between the image and the text */
 }
 
 .profile-pic input{
@@ -324,11 +420,6 @@ img.profile-pic {
   margin: 5px 0;
 }
 
-.button-container {
-  /* Style for the button container */
-  text-align: center;
-  margin-top: 20px;
-}
 
 .button-container input[type="submit"] {
   /* Style for submit button */
@@ -336,11 +427,80 @@ img.profile-pic {
   color: white;
   border: none;
   padding: 10px 20px;
-  border-radius: 5px;
+  border-radius: 25px;
   cursor: pointer;
 }
 
 .button-container input[type="submit"]:hover {
   /* Hover effect for submit button */
   background-color: #0056b3; /* Darker shade for hover */
+}
+
+.beat-card-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.like-section, .comments-section, .delete-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.like-section {
+  justify-content: flex-start; /* Align the like button to the left */
+}
+
+.comments-section {
+  justify-content: center; /* Center the comments button */
+}
+
+.delete-section {
+  justify-content: flex-end; /* Align the delete button to the right */
+}
+
+.button-small, button-small a {
+  background-color: darkblue;
+  color: white;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  display: inline-block; /* Allows padding and margin to affect element */
+  text-align: center;
+  border-radius: 5px; /* Optional: if you want rounded corners like other buttons */
+  text-decoration: none; /* Remove underline from anchor tags */
+  padding: 10px 20px; /* Consistent padding for all buttons */
+  margin: 0 5px; /* Consistent margin around buttons */
+  border: 1px solid #0057b395; /* Border width and color */
+  border-radius: 25px; /* Optional: if you want rounded corners like other buttons */
+}
+
+.beat-card h2 {
+  font-size: 24px;
+  margin: 0;
+  padding: 10px;
+  /* place in the middle of the beat-card */
+  display: flex;
+  justify-content: center;
+
+}
+.likes-amount {
+  font-size: 20px;
+  color:#06B2BA;
+  margin: 0;
+  padding: 5px;
+  /* place in the middle of the beat-card */
+  display: flex;
+  justify-content: center;
+}
+
+.likes-label {
+  font-size: 20px;
+  color:#ffffff;
+  margin: 0;
+  /* place in the middle of the beat-card */
+  display: flex;
+  justify-content: center;
 }

@@ -18,10 +18,7 @@
                         {% endfor %}
                     </div>
                 {% endif %}
-            </div>
 
-            <!-- Genre Field -->
-            <div class="form-group">
                 <label for="genre">{{ form.genre.label }}</label>
                 {{ form.genre(class="form-control") }}
                 {% if form.genre.errors %}
@@ -32,10 +29,7 @@
                         {% endfor %}
                     </div>
                 {% endif %}
-            </div>
 
-            <!-- Description Field -->
-            <div class="form-group">
                 <label for="description">{{ form.description.label }}</label>
                 {{ form.description(class="form-control") }}
                 {% if form.description.errors %}
@@ -46,10 +40,7 @@
                         {% endfor %}
                     </div>
                 {% endif %}
-            </div>
 
-            <!-- Audio File Field -->
-            <div class="form-group">
                 <label for="audio_file">{{ form.audio_file.label }}</label>
                 {{ form.audio_file(class="form-control") }}
                 {% if form.audio_file.errors %}
@@ -60,11 +51,9 @@
                         {% endfor %}
                     </div>
                 {% endif %}
-            </div>
 
-            <!-- Submit Button -->
-            <div class="form-group">
                 {{ form.submit(class="btn btn-primary") }}
+
             </div>
         </form>
     </div>

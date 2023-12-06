@@ -12,7 +12,7 @@ class User(db.Model, UserMixin):
     comments = db.relationship('Comment', back_populates='author', lazy='dynamic')
     likes = db.relationship('Like', backref='user', lazy='dynamic')
     #new columns
-    profile_pic = db.Column(db.String, default='default_profile_pic.jpg')
+    profile_pic = db.Column(db.String, default='pictures/profile_pictures/default_profile_pic.jpg')
     bio = db.Column(db.String, default='This user has not set a bio yet.')
 
 class Beat(db.Model):

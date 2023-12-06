@@ -5,7 +5,11 @@
         <div class="content-box" style="background-color: #f2f2f2; padding: 15px; border-radius: 10px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
             <p><strong>Date Posted:</strong> {{ beat.date_added }}</p>
             <p><strong>Description:</strong> {{ beat.description }}</p>
+            <!-- Beat author as well as their profile pic image -->
+            <!-- profile pic-->
+            <img src="{{ url_for('static', filename=user.profile_pic) if user.profile_pic else url_for('static', filename='pictures/default_profile_pic.jpg') }}" alt="Profile Picture" class="profile-pic">
             <p><strong>Posted by:</strong> {{ beat.artist }}</p>
+
             <p><strong>Genre:</strong> {{ beat.genre }}</p>
             
             <!-- Audio Player -->
