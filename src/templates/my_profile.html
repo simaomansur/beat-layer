@@ -7,7 +7,7 @@
             <div class="profile-container">
                 <!-- Profile Image -->
                 <div class="profile-image">
-                    <img src="{{ url_for('static', filename='profile_pics/' + user.profile_pic) }}" alt="Profile Picture">
+                    <img src="{{ url_for('static', filename=user.profile_pic) }}" alt="Profile Picture">
                     {{ form.profile_pic }}
                 </div>
                 <!-- Profile Info -->

@@ -178,20 +178,18 @@ def my_profile():
         if form.profile_pic.data:
             new_profile_pic = form.profile_pic.data
             filename = secure_filename(new_profile_pic.filename)
-            filepath = os.path.join('src', 'app', 'uploads', 'profile_pictures', filename)
-            print('saving profile pic to: ', filepath)
-            # save the new profile pic as current_user.id.jpg (or png or whatever) ?
-            
+            # Construct the absolute path to the static directory
+            filepath = os.path.join(app.root_path, 'static', 'pictures', 'profile_pictures', filename)
+            # Save the file
             new_profile_pic.save(filepath)
-            print('setting profile pic to: ', filepath)
-            current_user.profile_pic = filepath
+            # Store relative path in database
+            current_user.profile_pic = os.path.join('pictures', 'profile_pictures', filename)
 
         current_user.bio = form.bio.data  # Update bio
         db.session.commit()
         return redirect(url_for('my_profile'))
 
     form.bio.data = current_user.bio  # Prepopulate bio field with current bio
-    print(current_user.profile_pic)
     return render_template('my_profile.html', form=form, user=current_user)
 
 
