@@ -6,7 +6,8 @@
             <p><strong>Date Posted:</strong> {{ beat.date_added }}</p>
             <p><strong>Description:</strong> {{ beat.description }}</p>
             <p><strong>Posted by:</strong> {{ beat.artist }}</p>
-
+            <p><strong>Genre:</strong> {{ beat.genre }}</p>
+            
             <!-- Audio Player -->
             <audio controls>
                 <source src="{{ url_for('get_uploaded_file', filename=beat.audio_file) }}" type="audio/mpeg">
@@ -15,6 +16,8 @@
         </div>
     </div>
 
+    <!--delete button-->
+    
     <!-- Comments Section -->
     <div>
         <h2>Comments</h2>

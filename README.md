@@ -39,190 +39,168 @@ As a collaborator, I want to be able to download the final version of a song, so
 #### Use Case Diagram
 
 ![Use Case Diagram](src/static/pictures/UseCase.png)
+
 ```
-# @startuml
-# !define ICONURL https://raw.githubusercontent.com/rabelenda/cicon-plantuml-sprites/v1.0
+@startuml
 
-# !define USERURL ICONURL/user1/white/person_white_48dp.png
-# !define COMPUTERURL ICONURL/dev/computer_screen_dev_48dp.png
-# !define DATABASEURL ICONURL/data/database_data_48dp.png
-# !define CONTROLLERURL ICONURL/device/device_hub_device_hub_48dp.png
-# !define ACTORURL ICONURL/avatar/avatar_48dp.png
-# !define MAILURL ICONURL/communication/mail_outline_communication_48dp.png
-# !define LIKEURL ICONURL/action/thumb_up_thumb_up_48dp.png
+actor User as AUTHUSER
 
-# !define AUTHUSER actor
+rectangle "Web Application" {
+  [Home]
+  [Signup]
+  [Signout]
+  [Beats]
+  [New Beat]
+  [Beat Detail]
+  [Add Comment]
+  [User Profile]
+  [Forgot Password]
+  [Reset Password]
+  [Like Beat]
 
-# actor User as AUTHUSER #white
+  [Home] --> (AUTHUSER)
+  [Signup] --> (AUTHUSER)
+  [Signout] --> (AUTHUSER)
+  [Beats] --> (AUTHUSER)
+  [New Beat] --> (AUTHUSER)
+  [Beat Detail] --> (AUTHUSER)
+  [Add Comment] --> (AUTHUSER)
+  [User Profile] --> (AUTHUSER)
+  [Forgot Password] --> (AUTHUSER)
+  [Reset Password] --> (AUTHUSER)
+  [Like Beat] --> (AUTHUSER)
+ }
 
-# rectangle "Web Application" {
-#   [Home]
-#   [Signup]
-#   [Signout]
-#   [Beats]
-#   [New Beat]
-#   [Beat Detail]
-#   [Add Comment]
-#   [User Profile]
-#   [Forgot Password]
-#   [Reset Password]
-#   [Like Beat]
-
-#   [Home] --> (AUTHUSER)
-
-#   [Signup] --> (AUTHUSER)
-
-#   [Signout] --> (AUTHUSER)
-
-#   [Beats] --> (AUTHUSER)
-
-#   [New Beat] --> (AUTHUSER)
-
-#   [Beat Detail] --> (AUTHUSER)
-
-#   [Add Comment] --> (AUTHUSER)
-
-#   [User Profile] --> (AUTHUSER)
-
-#   [Forgot Password] --> (AUTHUSER)
-
-#   [Reset Password] --> (AUTHUSER)
-
-#   [Like Beat] --> (AUTHUSER)
-# }
-
-# @enduml
+ @enduml
 ```
 
 #### Class Diagram
 
 ![Class Diagram](src/static/pictures/BLJ1JE1.PNG)
+
 ```
-(code goes here)
-```
-# @startuml
-# class User {
-#   - id: String
-#   - email: String
-#   - passwd: String
-# }
+@startuml
 
-# class Beat {
-#   - id: String
-#   - title: String
-#   - genre: String
-#   - artist: String
-#   - description: String
-#   - audio_file: String
-#   - date_added: DateTime
-# }
+class User {
+  - id: String
+  - email: String
+  - passwd: String
+}
 
-# class Comment {
-#   - id: String
-#   - content: String
-#   - date_posted: DateTime
-# }
+class Beat {
+  - id: String
+  - title: String
+  - genre: String
+  - artist: String
+  - description: String
+  - audio_file: String
+  - date_added: DateTime
+}
 
-# class Like {
-#   - id: String
-#   - user_id: String
-#   - beat_id: String
-# }
+class Comment {
+  - id: String
+  - content: String
+  - date_posted: DateTime
+}
 
-# class SignUpForm {
-#   + id: String
-#   + email_address: String
-#   + passwd: String
-#   + passwd_confirm: String
-# }
+class Like {
+  - id: String
+  - user_id: String
+  - beat_id: String
+}
 
-# class SignInForm {
-#   + id: String
-#   + passwd: String
-# }
+class SignUpForm {
+  + id: String
+  + email_address: String
+  + passwd: String
+  + passwd_confirm: String
+}
 
-# class BeatForm {
-#   + title: String
-#   + genre: String
-#   + description: String
-#   + audio_file: File
-# }
+class SignInForm {
+  + id: String
+  + passwd: String
+}
 
-# class ForgotPasswordForm {
-#   + email: String
-# }
+class BeatForm {
+  + title: String
+  + genre: String
+  + description: String
+  + audio_file: File
+}
 
-# class ResetPasswordForm {
-#   + password: String
-#   + password_confirm: String
-# }
+class ForgotPasswordForm {
+  + email: String
+}
 
-# class HomeForm {
-#   + id: String
-#   + passwd: String
-# }
+class ResetPasswordForm {
+  + password: String
+  + password_confirm: String
+}
 
-# User "1" -- "0..*" Beat : has
-# User "1" -- "0..*" Comment : writes
-# User "1" -- "0..*" Like : likes
-# SignUpForm --|> User
-# SignInForm --|> User
-# BeatForm --|> Beat
-# ForgotPasswordForm --|> User
-# ResetPasswordForm --|> User
-# HomeForm --|> User
-# @enduml
+class HomeForm {
+  + id: String
+  + passwd: String
+}
+
+User "1" -- "0..*" Beat : has
+User "1" -- "0..*" Comment : writes
+User "1" -- "0..*" Like : likes
+SignUpForm --|> User
+SignInForm --|> User
+BeatForm --|> Beat
+ForgotPasswordForm --|> User
+ResetPasswordForm --|> User
+HomeForm --|> User
+
+@enduml
 ```
 
 #### Sequence Diagram
 
-BLJ1JE1.png
-
 ![Sequence Diagram](src/static/pictures/Sequence.PNG)
 
-
 ```
-# @startuml
+@startuml
 
-# actor User
+actor User
 
-# database Database
+database Database
 
-# User -> FlaskApp: Open website
-# activate FlaskApp
-# FlaskApp --> FlaskApp: Check if user is authenticated
-# note right: If authenticated, redirect to beats
-# FlaskApp -> FlaskApp: Redirect to home
-# FlaskApp --> FlaskApp: Render home page
-# FlaskApp -> User: Display home page
+User -> FlaskApp: Open website
+activate FlaskApp
+FlaskApp --> FlaskApp: Check if user is authenticated
+note right: If authenticated, redirect to beats
+FlaskApp -> FlaskApp: Redirect to home
+FlaskApp --> FlaskApp: Render home page
+FlaskApp -> User: Display home page
 
-# User -> FlaskApp: Login
-# activate FlaskApp
-# FlaskApp -> FlaskApp: Validate form
-# FlaskApp -> Database: Query user
-# Database --> FlaskApp: Return user data
-# FlaskApp -> FlaskApp: Check password
-# FlaskApp -> FlaskApp: Log in user
-# FlaskApp -> FlaskApp: Redirect to beats
-# FlaskApp --> User: Display beats
+User -> FlaskApp: Login
+activate FlaskApp
+FlaskApp -> FlaskApp: Validate form
+FlaskApp -> Database: Query user
+Database --> FlaskApp: Return user data
+FlaskApp -> FlaskApp: Check password
+FlaskApp -> FlaskApp: Log in user
+FlaskApp -> FlaskApp: Redirect to beats
+FlaskApp --> User: Display beats
 
-# User -> FlaskApp: View beat details
-# activate FlaskApp
-# FlaskApp -> Database: Query beat details
-# Database --> FlaskApp: Return beat details
-# FlaskApp -> FlaskApp: Render beat details
-# FlaskApp --> User: Display beat details
+User -> FlaskApp: View beat details
+activate FlaskApp
+FlaskApp -> Database: Query beat details
+Database --> FlaskApp: Return beat details
+FlaskApp -> FlaskApp: Render beat details
+FlaskApp --> User: Display beat details
 
-# User -> FlaskApp: Add comment
-# activate FlaskApp
-# FlaskApp -> FlaskApp: Validate comment
-# FlaskApp -> Database: Add comment to database
-# Database --> FlaskApp: Confirm comment added
-# FlaskApp --> User: Display success message
+User -> FlaskApp: Add comment
+activate FlaskApp
+FlaskApp -> FlaskApp: Validate comment
+FlaskApp -> Database: Add comment to database
+Database --> FlaskApp: Confirm comment added
+FlaskApp --> User: Display success message
 
-# deactivate FlaskApp
+deactivate FlaskApp
 
-# @enduml
+@enduml
 ```
 
 ## Development Process 
@@ -323,24 +301,28 @@ added genres drop down menu
 - beats page style fix
     - still could use some work
 
+# Simao - 12/4/23
+- added search by genre functionality
+- updated read me to feature information about the project
+
 # Needed Changes
 ## Parker
 - update the beat cards
 - add a profile page
 - add a profile picture 
 - add a bio
-- fix create new beat form page so input field widths are not the whole page
+- fix create new beat form page so input field widths are not the whole page (DONE)
 ## Simao
-- add sorting to beats page
+- add sorting to beats page (DONE)
 - make functionable with docker
 ## Rye
-- create a use case diagram
-- create a class diagram
-- create a sequence diagram
+- create a use case diagram (DONE)
+- create a class diagram (DONE)
+- create a sequence diagram (DONE)
 - create a vision statement (The project must have a vision statement that describes what the purpose of the software is, the type of problem it tries to solve, and the target audience.)
 - At least one white-box and one black-box test, none of them related to user creation or authentication, must be provided.
 ## All
-- The main branch must be protected and require a code review before a pull request approval.
+- The main branch must be protected and require a code review before a pull request approval. (DONE)
 - All source code must have a consistent header comment with a brief description and its author.
 - Code written for this project must comply to PEP8 code style standards
 - Test coverage report must be generated using Python's coverage.
