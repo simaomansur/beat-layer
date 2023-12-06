@@ -26,6 +26,7 @@ header {
   font-size: 25px;
 }
 
+label
 
 header {
   position:fixed;
@@ -96,12 +97,6 @@ th {
   color: white;
 }
 
-.profile-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
 
 .flashes {
   color: red;
@@ -256,11 +251,96 @@ input[type="text"]::placeholder {
 .form-control {
   width: 100%; /* Make the form controls fill the container */
   margin-bottom: 15px;
+  padding-left: 58px;
 }
 
 /* Style the labels for better alignment */
 label {
   display: block; /* Display labels as blocks to stack them vertically */
   text-align: center; /* Center-align the labels */
-  margin-bottom: 5px; /* Add some spacing between labels and fields */
+  margin-bottom: 10px; /* Add some spacing between labels and fields */
+  background-color: #555555a4;
+}
+
+img.profile-pic {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin: auto;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.profile-pic input{
+  display: block;
+  margin-bottom: 20px;
+
+}
+
+.profile-container {
+  /* Layout for the profile container */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  max-width: 600px;
+  margin: auto;
+}
+
+.profile-image {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  flex-direction: column; /* Stack children vertically */
+}
+
+.profile-image img {
+  /* Style for profile image */
+  border-radius: 50%; /* Circular image */
+  width: 100px; /* Adjust as needed */
+  height: 100px; /* Adjust as needed */
+  object-fit: cover; /* Keeps the aspect ratio */
+  border: 2px solid #ddd; /* Example border */
+  margin-bottom: 20px;
+  /*center the image */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.profile-info {
+  /* Style for profile information section */
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+
+.profile-info label, .profile-info p {
+  /* Styling labels and paragraphs in the profile info section */
+  font-size: 1rem;
+  color: #333; /* Adjust color to match your site */
+  margin: 5px 0;
+}
+
+.button-container {
+  /* Style for the button container */
+  text-align: center;
+  margin-top: 20px;
+}
+
+.button-container input[type="submit"] {
+  /* Style for submit button */
+  background-color: #007bff; /* Example color */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.button-container input[type="submit"]:hover {
+  /* Hover effect for submit button */
+  background-color: #0056b3; /* Darker shade for hover */
 }

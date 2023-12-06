@@ -179,8 +179,9 @@ def my_profile():
             new_profile_pic = form.profile_pic.data
             filename = secure_filename(new_profile_pic.filename)
             # Construct the absolute path to the static directory
-            filepath = os.path.join(app.root_path, 'static', 'pictures', 'profile_pictures', filename)
+            filepath = os.path.join(app.root_path, 'src', 'static', 'pictures', 'profile_pictures', filename)
             # Save the file
+            print("Saving file to: ", filepath)
             new_profile_pic.save(filepath)
             # Store relative path in database
             current_user.profile_pic = os.path.join('pictures', 'profile_pictures', filename)
