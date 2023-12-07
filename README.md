@@ -378,10 +378,10 @@ added genres drop down menu
 
 # Needed Changes
 ## Parker
-- update the beat cards
-- add a profile page
-- add a profile picture 
-- add a bio
+- update the beat cards (DONE)
+- add a profile page (DONE)
+- add a profile picture (DONE)
+- add a bio (DONE)
 - fix create new beat form page so input field widths are not the whole page (DONE)
 ## Simao
 - add sorting to beats page (DONE)
@@ -390,11 +390,18 @@ added genres drop down menu
 - create a use case diagram (DONE)
 - create a class diagram (DONE)
 - create a sequence diagram (DONE)
-- create a vision statement (The project must have a vision statement that describes what the purpose of the software is, the type of problem it tries to solve, and the target audience.)
-- At least one white-box and one black-box test, none of them related to user creation or authentication, must be provided.
+- create a vision statement (The project must have a vision statement that describes what the purpose of the software is, the type of problem it tries to solve, and the target audience.) (DONE)
+- At least one white-box and one black-box test, none of them related to user creation or authentication, must be provided. (DONE)
 ## All
 - The main branch must be protected and require a code review before a pull request approval. (DONE)
-- All source code must have a consistent header comment with a brief description and its author.
-- Code written for this project must comply to PEP8 code style standards
+- All source code must have a consistent header comment with a brief description and its author. (DONE)
+- Code written for this project must comply to PEP8 code style standards (DONE)
 - Test coverage report must be generated using Python's coverage.
+
+To-Do before tomorrow ends:
+•	Fix test to work with coverage
+•	Docker
+•	Make sure requirements is up to date
+•	How to deploy!!
+
 ```
