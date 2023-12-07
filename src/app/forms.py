@@ -28,7 +28,26 @@ class HomeForm(FlaskForm):
 class BeatForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     # dropdown for genre
-    genre = SelectField('Genre', choices=[('rock', 'Rock'), ('electronic', 'Electronic'), ('jazz', 'Jazz')])
+    genre = SelectField(
+        'Genre',
+        choices=[
+            ('rock', 'Rock'), 
+            ('electronic', 'Electronic'), 
+            ('jazz', 'Jazz'),
+            ('pop', 'Pop'), 
+            ('hip-hop', 'Hip-Hop'), 
+            ('country', 'Country'),
+            ('r&b', 'R&B'), 
+            ('classical', 'Classical'), 
+            ('metal', 'Metal'),
+            ('blues', 'Blues'), 
+            ('folk', 'Folk'), 
+            ('reggae', 'Reggae'),
+            ('latin', 'Latin'), 
+            ('indie', 'Indie'), 
+            ('soul', 'Soul')
+        ]
+    )
     description = TextAreaField('Description', validators=[DataRequired()])
     audio_file = FileField('Audio File', validators=[FileRequired(), FileAllowed(['mp3', 'wav'], 'Audio only!')])
     submit = SubmitField('Create Beat')
@@ -48,5 +67,5 @@ class ResetPasswordForm(FlaskForm):
     
 class MyProfileForm(FlaskForm):
     bio = TextAreaField('Bio', default='')
-    profile_pic = FileField('Profile Picture', validators=[FileAllowed(['jpg', 'png'], 'Images only!')])
+    profile_pic = FileField('Profile Picture', validators=[FileAllowed(['jpg', 'png', 'jpeg'], 'Images only!')])
     submit = SubmitField('Update Profile')
