@@ -249,7 +249,9 @@ def my_profile():
             )
             print("Saving file to: ", filepath)
             new_profile_pic.save(filepath)
-            current_user.profile_pic = os.path.join('pictures', 'profile_pictures', filename).replace('\\', '/')
+            profile_pic_dir = 'pictures/profile_pictures'
+            current_user.profile_pic = os.path.join(profile_pic_dir, filename)
+            current_user.profile_pic = current_user.profile_pic.replace('\\', '/')
         current_user.bio = form.bio.data
         db.session.commit()
         return redirect(url_for('my_profile'))
