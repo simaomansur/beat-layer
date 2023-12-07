@@ -1,4 +1,13 @@
-from src.app import app, db, cache, mail
+# -----------------------------------------------------------
+# Project: BeatBank
+# File: routes.py
+# Description: This file contains the routes for the app. It is
+# imported by the __init__.py file in the same directory.
+#
+# Author: Parker Tonra, Simao Mansur
+# -----------------------------------------------------------
+
+from src.app import app, db, mail
 from src.app.models import User, Beat, Comment, Like
 from src.app.forms import SignUpForm, BeatForm, ForgotPasswordForm, ResetPasswordForm, HomeForm, MyProfileForm
 from flask import render_template, redirect, url_for, request, flash, send_from_directory, jsonify
@@ -18,51 +27,46 @@ def index():
         return redirect(url_for('beats'))
     return redirect(url_for('home'))
 
-@app.route('/home', methods=['GET', 'POST']) # home is the URL for the home page, and the methods are GET and POST
+@app.route('/home', methods=['GET', 'POST'])
 def home():
     form = HomeForm()
-    if form.validate_on_submit(): # if the request is a POST
-        user = User.query.filter_by(id=form.id.data).first()  # get the user from the database via id
-        if not user: # if the user does not exist.
-            flash('Could not find user. Try again?')  # flash a message
+    if form.validate_on_submit():
+        user = User.query.filter_by(id=form.id.data).first()
+        if not user:
+            flash('Could not find user. Try again?')
             return redirect(url_for('index'))
-        if not bcrypt.checkpw(form.passwd.data.encode('utf-8'), user.passwd): # Check if the password entered matches the hashed password stored
-            flash('Invalid password') # flash a message if it is incorrect.
+        if not bcrypt.checkpw(form.passwd.data.encode('utf-8'), user.passwd):
+            flash('Invalid password')
             return render_template('home.html', form=form) 
-        login_user(user)  # Log in the user
-        print(user.email) # Print the user's email
-        return redirect(url_for('beats')) # render the beats page
+        login_user(user)
+        return redirect(url_for('beats'))
     return render_template('home.html', form=form)
 
-@app.route('/users/signup', methods=['GET', 'POST']) # users/signup is the URL for the sign up page, and the methods are GET and POST
-def users_signup(): # this function is called when the user visits the sign up page
-    form = SignUpForm() # create a sign up form and use SignUpForm() from forms.py
-    if form.validate_on_submit(): # if the request is a POST
-        existing_user = User.query.filter_by(id=form.id.data).first() # get the user from the database via id
-        if existing_user: # if the user exists
-            flash('Email already in use') # flash a message
-            return render_template('signup.html', form=form) # render the sign up page again
-        if form.passwd.data != form.passwd_confirm.data:    # Check if the passwords match
-            flash('Passwords do not match') # flash a message if they don't
-            return render_template('signup.html', form=form) # render the sign up page again
-        # Hash password
+@app.route('/users/signup', methods=['GET', 'POST'])
+def users_signup():
+    form = SignUpForm()
+    if form.validate_on_submit():
+        existing_user = User.query.filter_by(id=form.id.data).first()
+        if existing_user:
+            flash('Email already in use')
+            return render_template('signup.html', form=form)
+        if form.passwd.data != form.passwd_confirm.data:
+            flash('Passwords do not match')
+            return render_template('signup.html', form=form)
         salt = bcrypt.gensalt()
         hashed_password = bcrypt.hashpw(form.passwd.data.encode('utf-8'), salt)
-        # Create a new user
         new_user = User(
             email=form.email_address.data,
             id = form.id.data,
             passwd=hashed_password,
-            # ...possibly other fields ...
         )
-        db.session.add(new_user) # add the new user to the database
-        try: # try to commit the changes
-            db.session.commit() # commit the changes
-            flash('Account created successfully!') # flash a message
-            return redirect(url_for('home')) # redirect to the sign in page
-        except Exception as e: # if an exception occurs
-            db.session.rollback() # rollback the changes
-            # Log the exception 
+        db.session.add(new_user)
+        try:
+            db.session.commit()
+            flash('Account created successfully!')
+            return redirect(url_for('home'))
+        except Exception as e:
+            db.session.rollback()
             print(e)
             flash('An error occurred while creating your account. Please try again.')
     return render_template('signup.html', form=form)
@@ -105,13 +109,6 @@ def beats_new():
             audio_file = filename,
             date_added = datetime.now()
         )
-        
-        print(type(new_beat.id))
-        print(type(new_beat.title))
-        print(type(new_beat.artist))
-        print(type(new_beat.description))
-        print(type(new_beat.date_added))
-        
         db.session.add(new_beat)
         try:
             db.session.commit()
@@ -133,7 +130,6 @@ def beat_detail(beat_id):
     user = User.query.filter_by(id=beat.artist).first()
     return render_template('beat_detail.html', beat=beat, comments=comments, user=user)
 
-
 @app.route('/uploads/<filename>')
 def get_uploaded_file(filename):
     return send_from_directory('src/app/uploads', filename)
@@ -151,30 +147,23 @@ def add_comment(beat_id):
         flash('Comment cannot be empty.')
     return redirect(url_for('beat_detail', beat_id=beat_id))
 
-#route for '/beat_user/<user.id>' page, shows all beats the user in question. if current_user, show delete button.
 @app.route('/beat_user/<string:user_id>')
 @login_required
 def beat_user(user_id):
     beats = Beat.query.filter_by(artist=user_id).all()
     return render_template('beats.html', beats=beats)
 
-
 @login_required
 @app.route('/beat_user/<string:user_id>/delete/<string:beat_id>', methods=['POST'])
 def beat_user_delete(user_id, beat_id):
     beat = Beat.query.get_or_404(beat_id)
-
     if beat.artist == user_id:
-        # Delete all comments associated with the beat
         Comment.query.filter_by(beat_id=beat.id).delete()
-
-        # Now delete the beat
         db.session.delete(beat)
         db.session.commit()
         flash('Beat and associated comments deleted successfully!')
     else:
         flash('You cannot delete this beat.')
-
     return redirect(url_for('beat_user', user_id=user_id))
 
 @login_required
@@ -185,21 +174,15 @@ def my_profile():
         if form.profile_pic.data:
             new_profile_pic = form.profile_pic.data
             filename = secure_filename(new_profile_pic.filename)
-            # Construct the absolute path to the static directory
             filepath = os.path.join(app.root_path, 'src', 'static', 'pictures', 'profile_pictures', filename)
-            # Save the file
             print("Saving file to: ", filepath)
             new_profile_pic.save(filepath)
-            # Store relative path in database
             current_user.profile_pic = os.path.join('pictures', 'profile_pictures', filename)
-
-        current_user.bio = form.bio.data  # Update bio
+        current_user.bio = form.bio.data
         db.session.commit()
         return redirect(url_for('my_profile'))
-
-    form.bio.data = current_user.bio  # Prepopulate bio field with current bio
+    form.bio.data = current_user.bio
     return render_template('my_profile.html', form=form, user=current_user)
-
 
 @app.route('/about')
 def about():
@@ -207,14 +190,11 @@ def about():
 
 @app.route('/github')
 def github():
-    # send user to github page https://github.com/simaomansur/beat-layer in a new tab
     return redirect("https://github.com/simaomansur/beat-layer", code=302)
 
 @app.route('/forgot_password', methods=['GET', 'POST'])
 def forgot_password():
     form = ForgotPasswordForm()
-    
-    # Check if it's a POST request and the form is valid
     if request.method == 'POST' and form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user:
@@ -223,9 +203,6 @@ def forgot_password():
             return redirect(url_for('index'))
         else:
             flash('Invalid email address!', 'error')
-    
-    # For a GET request or if the form is not valid, render the template
-    flash('Error')
     return render_template('forgot_password.html', form=form)
 
 @app.route('/reset/<token>', methods=["GET", "POST"])
@@ -236,13 +213,12 @@ def reset_with_token(token):
         email = serializer.loads(
             token,
             salt = app.config['SECURITY_PASSWORD_SALT'],
-            max_age=3600  # Token expires after 1 hour
+            max_age=3600
         )
         print("email: ", email)
     except:
         flash('The password reset link is invalid or has expired.', 'error')
         return redirect(url_for('login'))
-
     form = ResetPasswordForm()
     if request.method == 'POST':
         print("request method is POST")
@@ -268,7 +244,6 @@ def reset_with_token(token):
         else:
             print("user not found")
             flash('Unable to reset password. Your reset link may have expired.', 'error')
-
     return render_template('reset_password.html', form=form, token=token)
 
 def commit_new_password(token, password):
@@ -276,7 +251,7 @@ def commit_new_password(token, password):
     email = serializer.loads(
         token,
         salt = app.config['SECURITY_PASSWORD_SALT'],
-        max_age=3600  # Token expires after 1 hour
+        max_age=3600
     )
     user = User.query.filter_by(email=email).first()
     if user:
@@ -291,11 +266,9 @@ def commit_new_password(token, password):
 
 def send_password_reset_email(user_email):
     serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
-    
     token = serializer.dumps(user_email, salt=app.config['SECURITY_PASSWORD_SALT'])
     user_id = User.query.filter_by(email=user_email).first().id
     reset_url = url_for('reset_with_token', token=token, _external=True)
-    
     email = Message("Password Reset Requested", sender='your@domain.com', recipients=[user_email])
     email.body = f'Username: {user_id}\n\nTo reset your password, visit the following link:\n{reset_url}\n\nIf you did not make this request then simply ignore this email and no changes will be made.'
     mail.send(email)
@@ -305,10 +278,7 @@ def send_password_reset_email(user_email):
 def like_song(beat_id):
     existing_like = Like.query.filter_by(user_id=current_user.id, beat_id=beat_id).first()
     if existing_like:
-        # User has already liked this beat, do not add another like
         return jsonify({"success": False, "error": "Already liked"}), 400
-
-    # If the user hasn't liked this beat yet, proceed to add a new like
     new_like = Like(user_id=current_user.id, beat_id=beat_id)
     db.session.add(new_like)
     db.session.commit()

@@ -1,3 +1,12 @@
+# -----------------------------------------------------------
+# Project: BeatBank
+# File: forms.py
+# Description: This file contains the forms for the app. It is
+# imported by the __init__.py file in the same directory.
+#
+# Author: Parker Tonra, Simao Mansur
+# -----------------------------------------------------------
+
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, TextAreaField, DateField, SubmitField, FileField, EmailField, SelectField
 from wtforms.validators import DataRequired
@@ -16,7 +25,6 @@ class HomeForm(FlaskForm):
     passwd = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Sign In')
     
-    
 class BeatForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     # dropdown for genre
@@ -24,7 +32,6 @@ class BeatForm(FlaskForm):
     description = TextAreaField('Description', validators=[DataRequired()])
     audio_file = FileField('Audio File', validators=[FileRequired(), FileAllowed(['mp3', 'wav'], 'Audio only!')])
     submit = SubmitField('Create Beat')
-
 
 class ForgotPasswordForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired()])

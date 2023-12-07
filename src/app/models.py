@@ -1,3 +1,12 @@
+# -----------------------------------------------------------
+# Project: BeatBank
+# File: models.py
+# Description: This file contains the models for the app. It is
+# imported by the __init__.py file in the same directory.
+#
+# Author: Parker Tonra, Simao Mansur
+# -----------------------------------------------------------
+
 from datetime import datetime
 from sqlalchemy import Column, String, DateTime
 from src.app import db
@@ -11,18 +20,17 @@ class User(db.Model, UserMixin):
     beats = db.relationship('Beat', backref='creator', lazy='dynamic')
     comments = db.relationship('Comment', back_populates='author', lazy='dynamic')
     likes = db.relationship('Like', backref='user', lazy='dynamic')
-    #new columns
     profile_pic = db.Column(db.String, default='pictures/profile_pictures/default_profile_pic.jpg')
     bio = db.Column(db.String, default='This user has not set a bio yet.')
 
 class Beat(db.Model):
     __tablename__ = 'beats'
-    id = db.Column(db.String(36), primary_key=True)  # UUIDs are 36 characters long
+    id = db.Column(db.String(36), primary_key=True)
     title = db.Column(db.String(32), nullable=False)
-    date_added = Column(DateTime, default=datetime.utcnow)  # Date added to beat bank
+    date_added = Column(DateTime, default=datetime.utcnow)
     description = db.Column(db.String(100))
     artist = db.Column(db.String, db.ForeignKey('users.id'), nullable=False)
-    audio_file = Column(String)  # Path to audio file
+    audio_file = Column(String)
     genre = db.Column(db.String(32))
     likes = db.relationship('Like', backref='beat', lazy='dynamic')
     comments = db.relationship('Comment', backref='beat', lazy=True)
@@ -42,5 +50,5 @@ class Comment(db.Model):
 class Like(db.Model):
     __tablename__ = 'likes'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.String, db.ForeignKey('users.id'))  # Match the data type in User model
-    beat_id = db.Column(db.String(36), db.ForeignKey('beats.id'))  # Match the data type and name in Beat model
+    user_id = db.Column(db.String, db.ForeignKey('users.id'))
+    beat_id = db.Column(db.String(36), db.ForeignKey('beats.id'))

@@ -1,86 +1,90 @@
-    {% extends 'base.html' %}
-    {% block main %}
-        <div class="container">
-            <h1>Beats</h1>
-            <div class="genre-filter" style="margin-bottom: 20px;">
-                <form action="{{ url_for('beats') }}" method="get">
-                    <select name="genre" id="genre-select" style="padding: 5px; margin-right: 10px;">
-                        <option value="">Select Genre (All Beats)</option>
-                        <option value="rock">Rock</option>
-                        <option value="electronic">Electronic</option>
-                        <option value="jazz">Jazz</option>
-                    </select>
-                    <input type="submit" value="Search">
-                </form>
-            </div>        
-            <div class="content-box" style="background-color: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
-                <!-- List of beats -->
-                <ul style="list-style: none; padding: 0;">
-                    {% for beat_dict in beats %}
-                        {% set beat = beat_dict.beat %}
-                        {% set profile_pic = beat_dict.profile_pic %}
-                        <li>
-                            <div class="beat-card" style="border: 1px solid #ddd; padding: 10px; border-radius: 5px; margin-bottom: 10px;">
-                                <!-- Anchor tag wraps the content -->
-                                <a href="{{ url_for('beat_detail', beat_id=beat.id) }}" style="display: block; color: inherit; text-decoration: none;">
-                                    <div>
-                                        {% if profile_pic %}
-                                            <img src="{{ url_for('static', filename=profile_pic) }}" alt="Artist Profile Picture" class="profile-pic-small">
-                                        {% else %}
-                                            <img src="{{ url_for('static', filename='pictures/default_profile_pic.jpg') }}" alt="Default Profile Picture" class="profile-pic-small">
-                                        {% endif %}
-                                        <h2>Title: {{ beat.title }}</h2>
-                                        <h2>Artist: {{ beat.artist }}</h2>
-                                        <h2>Genre: {{ beat.genre }}</h2>
+<!-- 
+    File Name: beats.html
+    Description: This page displays all the beats in the database. It also allows the user to filter the beats by genre.
+    Author: Parker Tonra, Simao Mansur
+-->
+
+{% extends 'base.html' %}
+{% block main %}
+    <div class="container">
+        <h1>Beats</h1>
+        <div class="genre-filter" style="margin-bottom: 20px;">
+            <form action="{{ url_for('beats') }}" method="get">
+                <select name="genre" id="genre-select" style="padding: 5px; margin-right: 10px;">
+                    <option value="">Select Genre (All Beats)</option>
+                    <option value="rock">Rock</option>
+                    <option value="electronic">Electronic</option>
+                    <option value="jazz">Jazz</option>
+                </select>
+                <input type="submit" value="Search">
+            </form>
+        </div>        
+        <div class="content-box" style="background-color: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
+            <!-- List of beats -->
+            <ul style="list-style: none; padding: 0;">
+                {% for beat_dict in beats %}
+                    {% set beat = beat_dict.beat %}
+                    {% set profile_pic = beat_dict.profile_pic %}
+                    <li>
+                        <div class="beat-card" style="border: 1px solid #ddd; padding: 10px; border-radius: 5px; margin-bottom: 10px;">
+                            <!-- Anchor tag wraps the content -->
+                            <a href="{{ url_for('beat_detail', beat_id=beat.id) }}" style="display: block; color: inherit; text-decoration: none;">
+                                <div>
+                                    {% if profile_pic %}
+                                        <img src="{{ url_for('static', filename=profile_pic) }}" alt="Artist Profile Picture" class="profile-pic-small">
+                                    {% else %}
+                                        <img src="{{ url_for('static', filename='pictures/default_profile_pic.jpg') }}" alt="Default Profile Picture" class="profile-pic-small">
+                                    {% endif %}
+                                    <h2>Title: {{ beat.title }}</h2>
+                                    <h2>Artist: {{ beat.artist }}</h2>
+                                    <h2>Genre: {{ beat.genre }}</h2>
+                                </div>
+                                <div class="beat-card-actions" style="display: flex; align-items: center; justify-content: start;">
+                                    <!-- Container for like button and count -->
+                                    <div style="display: flex; align-items: center;">
+                                        <button onclick="likeSong('{{ beat.id }}', event)" class="button-small">Like</button>
+                                        <span class="likes-amount" id="like-count-{{ beat.id }}" style="margin-left: 10px;">{{ beat.like_count() }}</span>
                                     </div>
-                                    <div class="beat-card-actions" style="display: flex; align-items: center; justify-content: start;">
-                                        <!-- Container for like button and count -->
-                                        <div style="display: flex; align-items: center;">
-                                            <button onclick="likeSong('{{ beat.id }}', event)" class="button-small">Like</button>
-                                            <span class="likes-amount" id="like-count-{{ beat.id }}" style="margin-left: 10px;">{{ beat.like_count() }}</span>
-                                        </div>
-                                        
-                                        {% if beat.artist == current_user.id %}
-                                            <form action="{{ url_for('beat_user_delete', user_id=current_user.id, beat_id=beat.id) }}" method="POST" onsubmit="return confirmDelete(event)" style="margin-left: auto;">
-                                                <input type="submit" value="Delete Beat" class="button-small">
-                                            </form>
-                                        {% endif %}
-                                    </div>
-                                </a>
-                            </div>
-                        </li>
-                    {% endfor %}
-                </ul>
-                <!-- Button to create a new beat -->
-                <div class="button-container" style="text-align: center; margin-top: 20px;">
-                    <button onclick="window.location.href='{{ url_for('beats_new') }}'" class="button">Create New Beat</button>
-                </div>
+                                    
+                                    {% if beat.artist == current_user.id %}
+                                        <form action="{{ url_for('beat_user_delete', user_id=current_user.id, beat_id=beat.id) }}" method="POST" onsubmit="return confirmDelete(event)" style="margin-left: auto;">
+                                            <input type="submit" value="Delete Beat" class="button-small">
+                                        </form>
+                                    {% endif %}
+                                </div>
+                            </a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+            <!-- Button to create a new beat -->
+            <div class="button-container" style="text-align: center; margin-top: 20px;">
+                <button onclick="window.location.href='{{ url_for('beats_new') }}'" class="button">Create New Beat</button>
             </div>
         </div>
-
-        {% if current_user.is_authenticated %}
-        <script>
-            function likeSong(beatId, event) {
-                event.preventDefault(); // Prevents the default action (navigation)
-                fetch('/like/' + beatId, { method: 'POST' })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            document.getElementById('like-count-' + beatId).innerText = data.likes;
-                        } else {
-                            alert('You have already liked this song.');
-                        }
-                    })
-                    .catch(error => {
-                        alert('An error occurred.');
-                    });
-            }
-
-            function confirmDelete() {
-                return confirm('Are you sure you want to delete this beat?');
-            }
-        </script>
-        {% else %}
-        <p>Please <a href="{{ url_for('login') }}">login</a> to like a beat.</p>
-        {% endif %}
-    {% endblock %}
+    </div>
+    {% if current_user.is_authenticated %}
+    <script>
+        function likeSong(beatId, event) {
+            event.preventDefault(); // Prevents the default action (navigation)
+            fetch('/like/' + beatId, { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById('like-count-' + beatId).innerText = data.likes;
+                    } else {
+                        alert('You have already liked this song.');
+                    }
+                })
+                .catch(error => {
+                    alert('An error occurred.');
+                });
+        }
+        function confirmDelete() {
+            return confirm('Are you sure you want to delete this beat?');
+        }
+    </script>
+    {% else %}
+    <p>Please <a href="{{ url_for('login') }}">login</a> to like a beat.</p>
+    {% endif %}
+{% endblock %}

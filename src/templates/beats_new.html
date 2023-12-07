@@ -1,3 +1,9 @@
+<!-- 
+    File Name: beat_new.html
+    Description: HTML page for creating a new beat.
+    Author: Parker Tonra, Simao Mansur
+-->
+
 {% extends 'base.html' %}
 {% block main %}
     <h1>New Beat</h1>
@@ -5,7 +11,6 @@
         <!-- Form to create new beats -->
         <form action="{{ url_for('beats_new') }}" method="POST" enctype="multipart/form-data">
             {{ form.hidden_tag() }}  <!-- CSRF Token -->
-
             <!-- Title Field -->
             <div class="form-group">
                 <label for="title">{{ form.title.label }}</label>
@@ -18,7 +23,6 @@
                         {% endfor %}
                     </div>
                 {% endif %}
-
                 <label for="genre">{{ form.genre.label }}</label>
                 {{ form.genre(class="form-control") }}
                 {% if form.genre.errors %}
@@ -29,7 +33,6 @@
                         {% endfor %}
                     </div>
                 {% endif %}
-
                 <label for="description">{{ form.description.label }}</label>
                 {{ form.description(class="form-control") }}
                 {% if form.description.errors %}
@@ -40,7 +43,6 @@
                         {% endfor %}
                     </div>
                 {% endif %}
-
                 <label for="audio_file">{{ form.audio_file.label }}</label>
                 {{ form.audio_file(class="form-control") }}
                 {% if form.audio_file.errors %}
@@ -51,9 +53,7 @@
                         {% endfor %}
                     </div>
                 {% endif %}
-
                 {{ form.submit(class="btn btn-primary") }}
-
             </div>
         </form>
     </div>

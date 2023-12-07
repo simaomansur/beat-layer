@@ -1,3 +1,16 @@
+# -----------------------------------------------------------
+# Project: BeatBank
+# File: __init__.py
+# Descritption: This is the init.py file for the app package. It is the
+# first file that is run when the app is started. It contains
+# all of the app's initialization code, including the
+# creation of the Flask app object, the SQLAlchemy database
+# object, and the Flask login manager object. It also
+# initializes the Flask cache object.
+#
+# Author: Parker Tonra
+# -----------------------------------------------------------
+
 from flask import Flask
 import os
 from flask_migrate import Migrate
