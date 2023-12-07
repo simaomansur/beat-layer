@@ -15,6 +15,7 @@ from flask import Flask
 import os
 from flask_migrate import Migrate
 from flask_mail import Mail
+from sqlalchemy.orm.exc import NoResultFound
 
 app = Flask("Beat Layer")
 app.secret_key = os.environ['SECRET_KEY']
@@ -29,7 +30,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///beatbank.db'
 db.init_app(app)
 
 from src.app import models
-with app.app_context(): 
+with app.app_context():
     db.create_all()
 
 # login manager
@@ -42,14 +43,16 @@ mail = Mail(app)
 
 from src.app.models import User
 
+
 # user_loader callback
 @login_manager.user_loader
 def load_user(id):
-    try: 
-        return db.session.query(User).filter(User.id==id).one()
-    except: 
+    try:
+        return db.session.query(User).filter(User.id == id).one()
+    except NoResultFound:
         return None
-    
+
+
 # cache setup
 from flask_caching import Cache
 cache = Cache()

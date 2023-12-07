@@ -12,16 +12,26 @@ from sqlalchemy import Column, String, DateTime
 from src.app import db
 from flask_login import UserMixin
 
+
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
     id = db.Column(db.String, primary_key=True)
     email = db.Column(db.String, unique=True)
     passwd = db.Column(db.LargeBinary)
-    beats = db.relationship('Beat', backref='creator', lazy='dynamic')
-    comments = db.relationship('Comment', back_populates='author', lazy='dynamic')
+    beats = db.relationship('Beat',
+                            backref='creator',
+                            lazy='dynamic'
+                            )
+    comments = db.relationship('Comment',
+                               back_populates='author',
+                               lazy='dynamic'
+                               )
     likes = db.relationship('Like', backref='user', lazy='dynamic')
-    profile_pic = db.Column(db.String, default='pictures/profile_pictures/default_profile_pic.jpg')
+    profile_pic = db.Column(
+        db.String, default='pictures/profile_pictures/default_profile_pic.jpg'
+        )
     bio = db.Column(db.String, default='This user has not set a bio yet.')
+
 
 class Beat(db.Model):
     __tablename__ = 'beats'
@@ -38,14 +48,20 @@ class Beat(db.Model):
     def like_count(self):
         return self.likes.count()
 
+
 class Comment(db.Model):
     __tablename__ = 'comments'
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(500), nullable=False)
-    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    beat_id = db.Column(db.String(36), db.ForeignKey('beats.id'), nullable=False)
+    date_posted = db.Column(db.DateTime,
+                            nullable=False,
+                            default=datetime.utcnow)
+    beat_id = db.Column(db.String(36),
+                        db.ForeignKey('beats.id'),
+                        nullable=False)
     user_id = db.Column(db.String, db.ForeignKey('users.id'), nullable=False)
     author = db.relationship('User', back_populates='comments')
+
 
 class Like(db.Model):
     __tablename__ = 'likes'

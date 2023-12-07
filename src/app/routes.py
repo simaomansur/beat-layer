@@ -25,7 +25,8 @@ import uuid
 from werkzeug.utils import secure_filename
 import os
 from datetime import datetime
-from itsdangerous import URLSafeTimedSerializer
+from itsdangerous import (URLSafeTimedSerializer,
+                          SignatureExpired, BadSignature, BadData)
 from flask_mail import Message
 
 
@@ -250,8 +251,9 @@ def my_profile():
             print("Saving file to: ", filepath)
             new_profile_pic.save(filepath)
             profile_pic_dir = 'pictures/profile_pictures'
-            current_user.profile_pic = os.path.join(profile_pic_dir, filename)
-            current_user.profile_pic = current_user.profile_pic.replace('\\', '/')
+            profile_pic_path = os.path.join(profile_pic_dir, filename)
+            normalized_path = profile_pic_path.replace('\\', '/')
+            current_user.profile_pic = normalized_path
         current_user.bio = form.bio.data
         db.session.commit()
         return redirect(url_for('my_profile'))
@@ -298,8 +300,14 @@ def reset_with_token(token):
             max_age=3600
         )
         print("email: ", email)
-    except:
-        flash('The password reset link is invalid or has expired.', 'error')
+    except SignatureExpired:
+        flash('The password reset link has expired.', 'error')
+        return redirect(url_for('login'))
+    except BadSignature:
+        flash('Invalid password reset link.', 'error')
+        return redirect(url_for('login'))
+    except BadData:
+        flash('The password reset link is invalid.', 'error')
         return redirect(url_for('login'))
     form = ResetPasswordForm()
     if request.method == 'POST':

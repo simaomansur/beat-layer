@@ -9,9 +9,9 @@
 # -----------------------------------------------------------
 
 import os
-
-# Flask app configuration
 from src.app import app
+
+
 class Config:
     app.config['MAIL_SERVER'] = 'smtp.gmail.com'
     app.config['MAIL_PORT'] = 587
