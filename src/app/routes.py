@@ -1,7 +1,7 @@
 from src.app import app, db, cache, mail
-from src.app.models import User, Beat, Comment, Like
-from src.app.forms import SignUpForm, BeatForm, ForgotPasswordForm, ResetPasswordForm, HomeForm, MyProfileForm
-from flask import render_template, redirect, url_for, request, flash, send_from_directory, jsonify
+from src.app.models import User, Beat, Comment
+from src.app.forms import SignUpForm, SignInForm, BeatForm, ForgotPasswordForm, ResetPasswordForm, HomeForm
+from flask import render_template, redirect, url_for, request, flash, send_from_directory
 from flask_login import login_required, login_user, logout_user, current_user
 import bcrypt, uuid
 from werkzeug.utils import secure_filename
@@ -74,18 +74,10 @@ def users_signout():
     return redirect(url_for('index'))
 
 @login_required
-@app.route('/beats', methods=['GET'])
+@app.route('/beats', methods=['GET', 'POST'])
 def beats():
-    if not current_user.is_authenticated:
-        flash('You must be logged in to view this page.')
-        return redirect(url_for('home'))
-    genre = request.args.get('genre')
-    if genre:
-        beat_tuples = Beat.query.filter_by(genre=genre).join(User, User.id == Beat.artist).add_columns(User.profile_pic).all()
-    else:
-        beat_tuples = Beat.query.join(User, User.id == Beat.artist).add_columns(User.profile_pic).all()
-    beats_with_pics = [{'beat': beat, 'profile_pic': profile_pic} for beat, profile_pic in beat_tuples]
-    return render_template('beats.html', beats=beats_with_pics)
+    beats = Beat.query.all()
+    return render_template('beats.html', beats=beats)
 
 @login_required
 @app.route('/beats/new', methods=['GET', 'POST'])
@@ -130,8 +122,7 @@ def beats_new():
 def beat_detail(beat_id):
     beat = Beat.query.get_or_404(beat_id)
     comments = Comment.query.filter_by(beat_id=beat.id).order_by(Comment.date_posted.desc()).all()
-    user = User.query.filter_by(id=beat.artist).first()
-    return render_template('beat_detail.html', beat=beat, comments=comments, user=user)
+    return render_template('beat_detail.html', beat=beat, comments=comments)
 
 
 @app.route('/uploads/<filename>')
@@ -152,54 +143,29 @@ def add_comment(beat_id):
     return redirect(url_for('beat_detail', beat_id=beat_id))
 
 #route for '/beat_user/<user.id>' page, shows all beats the user in question. if current_user, show delete button.
-@app.route('/beat_user/<string:user_id>')
 @login_required
+@app.route('/beat_user/<string:user_id>')
 def beat_user(user_id):
     beats = Beat.query.filter_by(artist=user_id).all()
     return render_template('beats.html', beats=beats)
 
-
 @login_required
-@app.route('/beat_user/<string:user_id>/delete/<string:beat_id>', methods=['POST'])
+@app.route('/beat_user/<string:user_id>/delete/<string:beat_id>')
 def beat_user_delete(user_id, beat_id):
     beat = Beat.query.get_or_404(beat_id)
-
     if beat.artist == user_id:
-        # Delete all comments associated with the beat
-        Comment.query.filter_by(beat_id=beat.id).delete()
-
-        # Now delete the beat
         db.session.delete(beat)
         db.session.commit()
-        flash('Beat and associated comments deleted successfully!')
+        flash('Beat deleted successfully!')
     else:
         flash('You cannot delete this beat.')
-
     return redirect(url_for('beat_user', user_id=user_id))
 
 @login_required
-@app.route('/my_profile', methods=['GET', 'POST'])
+@app.route('/my_profile')
 def my_profile():
-    form = MyProfileForm()
-    if form.validate_on_submit():
-        if form.profile_pic.data:
-            new_profile_pic = form.profile_pic.data
-            filename = secure_filename(new_profile_pic.filename)
-            # Construct the absolute path to the static directory
-            filepath = os.path.join(app.root_path, 'src', 'static', 'pictures', 'profile_pictures', filename)
-            # Save the file
-            print("Saving file to: ", filepath)
-            new_profile_pic.save(filepath)
-            # Store relative path in database
-            current_user.profile_pic = os.path.join('pictures', 'profile_pictures', filename)
-
-        current_user.bio = form.bio.data  # Update bio
-        db.session.commit()
-        return redirect(url_for('my_profile'))
-
-    form.bio.data = current_user.bio  # Prepopulate bio field with current bio
-    return render_template('my_profile.html', form=form, user=current_user)
-
+    user = User.query.get_or_404(current_user.id)
+    return render_template('my_profile.html', user=user)
 
 @app.route('/about')
 def about():
@@ -228,6 +194,8 @@ def forgot_password():
     flash('Error')
     return render_template('forgot_password.html', form=form)
 
+
+
 @app.route('/reset/<token>', methods=["GET", "POST"])
 def reset_with_token(token):
     try:
@@ -235,10 +203,9 @@ def reset_with_token(token):
         serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
         email = serializer.loads(
             token,
-            salt = app.config['SECURITY_PASSWORD_SALT'],
+            salt=app.config['SECURITY_PASSWORD_SALT'],
             max_age=3600  # Token expires after 1 hour
         )
-        print("email: ", email)
     except:
         flash('The password reset link is invalid or has expired.', 'error')
         return redirect(url_for('login'))
@@ -253,35 +220,32 @@ def reset_with_token(token):
         return render_template('reset_password.html', form=form, token=token)
     if form.validate_on_submit():
         (print("attempting to change password..."))
-        print('email: ', email)
         user = User.query.filter_by(email=email).first()
-        print('user: ', user)
         if user:
             salt = bcrypt.gensalt()
             hashed_password = bcrypt.hashpw(form.password.data.encode('utf-8'), salt)
-            user.passwd = hashed_password
+            user.password = hashed_password
             db.session.commit()
             print("password changed")
             flash('Your password has been updated!', 'success')
-            print(form.errors)
             return redirect(url_for('home'))
         else:
             print("user not found")
             flash('Unable to reset password. Your reset link may have expired.', 'error')
-
+        
     return render_template('reset_password.html', form=form, token=token)
 
 def commit_new_password(token, password):
     serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
     email = serializer.loads(
         token,
-        salt = app.config['SECURITY_PASSWORD_SALT'],
+        salt=app.config['SECURITY_PASSWORD_SALT'],
         max_age=3600  # Token expires after 1 hour
     )
     user = User.query.filter_by(email=email).first()
     if user:
         print("user found, resetting password...")
-        hashed_password = bcrypt.hashpw(password.encode('utf-8'), email.salt)
+        hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
         user.password = hashed_password
         db.session.commit()
         flash('Your password has been updated!', 'success')
@@ -293,29 +257,10 @@ def send_password_reset_email(user_email):
     serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
     
     token = serializer.dumps(user_email, salt=app.config['SECURITY_PASSWORD_SALT'])
-    user_id = User.query.filter_by(email=user_email).first().id
+
     reset_url = url_for('reset_with_token', token=token, _external=True)
     
     email = Message("Password Reset Requested", sender='your@domain.com', recipients=[user_email])
-    email.body = f'Username: {user_id}\n\nTo reset your password, visit the following link:\n{reset_url}\n\nIf you did not make this request then simply ignore this email and no changes will be made.'
+    email.body = f'Please click on the link to reset your password: {reset_url}'
+
     mail.send(email)
-    
-@app.route('/like/<beat_id>', methods=['POST'])
-@login_required
-def like_song(beat_id):
-    existing_like = Like.query.filter_by(user_id=current_user.id, beat_id=beat_id).first()
-    if existing_like:
-        # User has already liked this beat, do not add another like
-        return jsonify({"success": False, "error": "Already liked"}), 400
-
-    # If the user hasn't liked this beat yet, proceed to add a new like
-    new_like = Like(user_id=current_user.id, beat_id=beat_id)
-    db.session.add(new_like)
-    db.session.commit()
-    return jsonify({"success": True, "likes": Like.query.filter_by(beat_id=beat_id).count()})
-
-@app.context_processor
-def utility_processor():
-    def get_user(user_id):
-        return User.query.get(user_id)
-    return dict(get_user=get_user)
