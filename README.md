@@ -302,10 +302,51 @@ coverage report
 
 ## Deployment 
 
-The final product must demonstrate the integrity of at least 5 of the 6 planned user stories. The final product must be packaged in the form of a docker image. In this section, describe the steps needed to generate that image so that others can deploy the product themselves. All files required for the deployment must be available, including the docker file, source/binary code, external package requirements, data files, images, etc. Instructions on how to create a container from the docker image with parameters such as port mapping, environment variables settings, etc., must be described (if needed). 
+### How to deploy the application
 
+1. Clone the repository to your local machine.
+2. Create a virtual environment and install the required packages.
+```
+
+virtualenv venv
 
 ```
+3. Activate the virtual environment.
+```
+
+source venv/bin/activate
+
+```
+4. Install the required packages.
+```
+
+pip3 install -r requirements.txt
+
+```
+5. Set the environment variables.
+(mac)
+```
+
+export SECRET_KEY="pikachu"
+
+```
+(windows)
+```
+
+$env:SECRET_KEY="pikachu"
+
+```
+6. Run the application.
+```
+
+flask run
+
+```
+7. Open the application in your browser.
+http://127.0.0.1:5000
+8. To stop the application, press Ctrl+C in terminal.
+9. HAVE FUN!
+
 # Parker - 11/20/23 
 ## before running the app:
     export SECRET_KEY="pikachu" (mac) / $env:SECRET_KEY="pikachu" (windows)
