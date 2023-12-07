@@ -220,6 +220,65 @@ Feel free to use your own format for this section, as long as you are able to co
 ## Testing
 
 ### black-box testing
+1. Index Page:
+  - Open the application and navigate to the sign in page..
+  - Verify that if a user is authenticated, it redirects to the "/beats" page.
+  - Verify that if a user is not authenticated, it redirects to the "/home" page.
+2. Home Page:
+  - Navigate to the home page ("/home").
+  - Submit the form with valid credentials and verify that it redirects to the "/beats" page.
+3. Sign Up Page:
+  - Navigate to the sign-up page ("/users/signup").
+  - Verify that the sign-up form is present.
+  - Submit the form with a new valid user and verify that it redirects to the "/home" page.
+  - Submit the form with an existing email and verify that it displays an error message.
+  - Submit the form with non-matching passwords and verify that it displays an error message.
+4. Beats Page:
+  - Navigate to the beats page ("/beats").
+  - Verify that it displays a list of beats.
+  - If applicable, test the filter functionality by appending "?genre=<genre>" to the URL.
+5. New Beat Page:
+  - Navigate to the new beat page ("/beats/new").
+  - Verify that the new beat form is present.
+  - Submit the form with valid data and verify that it redirects to the "/beats" page.
+  - Submit the form with invalid data and verify that it displays appropriate error messages.
+6. Beat Detail Page:
+  - Navigate to a specific beat detail page ("/beat/<beat_id>").
+  - Verify that it displays details of the beat and any associated comments.
+  - If applicable, test the functionality to add a comment.
+7. User Profile Page:
+  - Navigate to the user profile page ("/beat_user/<user_id>").
+  - Verify that it displays a list of beats associated with the user.
+  - If applicable, test the functionality to delete a beat.
+8. My Profile Page:
+  - Navigate to the user's profile page ("/my_profile").
+  - Verify that it displays details of the currently logged-in user.
+9. About Page:
+  - Navigate to the about page ("/about").
+  - Verify that it displays information about the application.
+10. Forgot Password Page:
+  - Navigate to the forgot password page ("/forgot_password").
+  - Verify that the forgot password form is present.
+  - Submit the form with a valid email and verify that it displays a success message.
+  - Submit the form with an invalid email and verify that it displays an error message.
+11. Reset Password Page:
+  - Verify the reset password functionality by following the steps in the password reset email.
+12. Like Functionality:
+  - Navigate to a beat detail page ("/beat/<beat_id>").
+  - Verify that the like functionality works by clicking the like button.
+  - Verify that it doesn't allow a user to like the same beat more than once.
+13. GitHub Redirect:
+  - Navigate to the GitHub page ("/github").
+  - Verify that it redirects to the GitHub repository.
+14. Log Out:
+  - Test the log-out functionality ("/users/signout").
+  - Verify that after logging out, it redirects to the index page.
+15. Error Handling:
+  - Test error handling scenarios by intentionally causing errors, such as submitting forms with missing data or
+  invalid inputs.
+16. General Application Flow:
+  - Navigate through different pages and functionalities to ensure smooth application flow.
+  - Check for any unexpected behavior or errors during navigation.
 
 ### white-box testing
 
