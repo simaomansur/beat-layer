@@ -1,13 +1,18 @@
+<!-- 
+    File Name: base.html
+    Description: This is the base template for all other templates to extend from. It contains the header and footer for the website.
+    Author: Parker Tonra, Simao Mansur
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <title>{{ title }}</title>
-    
 </head>
+<!-- Header and navigation bar -->
 <header>
-    
     <nav class="menu-bar">
         <ul class="navbar">
             <li><a href="{{ url_for('beats') }}">Home</a></li>
@@ -32,25 +37,20 @@
         </ul>
     </nav>
 </header>
-
 <body>
+    <!-- Main content -->
+    <main>
+        {% for message in get_flashed_messages() %}
+            <div class="flash">{{ message }}</div>
+        {% endfor %}
 
-    
-
-<main>
-    {% for message in get_flashed_messages() %}
-        <div class="flash">{{ message }}</div>
-    {% endfor %}
-
-    {% block main %}
-    <!-- Content from the child templates will go here -->
-    {% endblock %}
-</main>
-
-<footer>
-    <img src="{{ url_for('static', filename='pictures/header.png') }}" alt="Beat Layer" class="header-image">
-    <p>© Beat Layer</p>
-</footer>
-
+        {% block main %}
+        <!-- Content from the child templates will go here -->
+        {% endblock %}
+    </main>
+    <footer>
+        <img src="{{ url_for('static', filename='pictures/header.png') }}" alt="Beat Layer" class="header-image">
+        <p>© Beat Layer</p>
+    </footer>
 </body>
 </html>

@@ -211,15 +211,19 @@ This section should be used to describe how the scrum methodology was used in th
 |---|---|---|---|---|---|
 |1|US#1, US#2|11/24/23|11/30/23|US#1, US#2|No troubles so far making progress but it seems that many stories might not get finished in the short time available|
 |2|US#3, US#4, US#5|12/1/23|12/4/23|US#3, US#4, US#5|Steady progress is still being made. We had to throw out some features to get the project done on time but everything is working so far.|
-|3|US#6, US#7, US#8, US#9|12/5/23|12/8/23|IP|IP|
+|3|US#6, US#7, US#8, US#9|12/5/23|12/7/23|IP|IP|
 
 Use the observations column to report problems encountered during a sprint and/or to reflect on how the team has continuously improved its work.
 
 Feel free to use your own format for this section, as long as you are able to communicate what has been described here.
 
-## Testing 
+## Testing
 
-Share in this section the results of the tests performed to attest to the quality of the developed product, including the coverage of the tests in relation to the written code. There is no minimum code coverage expectation for your tests, other than expecting "some" coverage through at least one white-box and one black-box test.
+### black-box testing
+
+### white-box testing
+
+unittests.py
 
 ## Deployment 
 

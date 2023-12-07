@@ -1,29 +1,29 @@
-{% extends 'base.html' %}
+<!-- 
+    File Name: home.html
+    Description: This is the home page for the website. It is the first page that the user sees when they visit the website. It contains a login form and a signup button.
+    Author: Parker Tonra, Simao Mansur
+-->
 
+{% extends 'base.html' %}
 {% block main %}
     <div class="login-container">
         <h2>Welcome to Beat Layer!</h2>
         <h3>Have an account? Log in below.</h3>
-
         <form action="{{ url_for('home') }}" method="post">
             {{ form.hidden_tag() }}
-
             <div class="input-group">
                 {{ form.id.label(class="form-label") }}
                 {{ form.id(class="form-control", placeholder="ex: modern_hendrix808", required=True) }}
             </div>
-
             <div class="input-group">
                 {{ form.passwd.label(class="form-label") }}
                 {{ form.passwd(class="form-control", placeholder="Enter your Password", required=True) }}
                 <a href="{{ url_for('forgot_password') }}" class="forgot-password">forgot password?</a>
             </div>
-
             <div class="input-group">
                 {{ form.submit(class="login-button") }}
             </div>
         </form>
-
         {% if not current_user.is_authenticated %}
             <div class="input-group">
                 <button onclick="window.location.href='{{url_for('users_signup')}}'" class="signup-button">Sign Up</button>
