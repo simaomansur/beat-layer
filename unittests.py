@@ -94,7 +94,7 @@ class YourAppTestCase(unittest.TestCase):
     def test_delete_beat(self):
         self.login('testuser', 'password')
         response = self.client.post('/beat_user/testuser/delete/testbeat', follow_redirects=True)
-        self.assertIn(b'Beat deleted successfully!', response.data)
+        self.assertIn(b'Beat and associated comments deleted successfully!', response.data)
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
