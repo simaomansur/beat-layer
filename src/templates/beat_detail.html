@@ -1,0 +1,44 @@
+<!-- 
+    File Name: beat_detail.html
+    Description: This page displays the details of a single beat. It also allows users to add comments to the beat.
+    Author: Parker Tonra, Simao Mansur
+-->
+
+{% extends 'base.html' %}
+{% block main %}
+    <div class="container">
+        <h1>{{ beat.title }}</h1>
+        <div class="content-box" style="background-color: #f2f2f2; padding: 15px; border-radius: 10px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
+            <p><strong>Date Posted:</strong> {{ beat.date_added }}</p>
+            <p><strong>Description:</strong> {{ beat.description }}</p>
+            <!-- profile pic-->
+            <img src="{{ url_for('static', filename=user.profile_pic) if user.profile_pic else url_for('static', filename='pictures/default_profile_pic.jpg') }}" alt="Profile Picture" class="profile-pic">
+            <p><strong>Posted by:</strong> {{ beat.artist }}</p>
+            <p><strong>Genre:</strong> {{ beat.genre }}</p>
+            <!-- Audio Player -->
+            <audio controls>
+                <source src="{{ url_for('get_uploaded_file', filename=beat.audio_file) }}" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    </div>
+    <!-- Comments Section -->
+    <div>
+        <h2>Comments</h2>
+        {% for comment in comments %}
+            <div class="comment">
+                <p>{{ comment.user_id }}: {{ comment.content }}</p>
+                <small>Posted on: {{ comment.date_posted }}</small>
+            </div>
+        {% endfor %}
+    </div>
+    <!-- Add Comment Form -->
+    {% if current_user.is_authenticated %}
+        <form action="{{ url_for('add_comment', beat_id=beat.id) }}" method="POST">
+            <textarea name="content" required></textarea>
+            <input type="submit" value="Add Comment">
+        </form>
+    {% else %}
+        <p>Please <a href="{{ url_for('login') }}">login</a> to add a comment.</p>
+    {% endif %}
+{% endblock %}

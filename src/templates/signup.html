@@ -1,0 +1,38 @@
+<!-- 
+    File Name: signup.html
+    Description: HTML for the signup page.
+    Author: Parker Tonra, Simao Mansur
+-->
+
+{% extends 'base.html' %}
+{% block main %}
+    <div class="form-container signup-form"> <!-- Use form-container for center alignment and styling -->
+        <form action="" method="POST" novalidate>
+            {{ form.hidden_tag() }}
+
+            <div class="input-group"> <!-- Group each input field with its label -->
+                <label for="id">{{ form.id.label }}</label>
+                {{ form.id(class="form-control", size=30) }} <!-- form-control for styling -->
+            </div>
+
+            <div class="input-group">
+                <label for="email">{{ form.email_address.label }}</label>
+                {{ form.email_address(class="form-control", size=30) }}
+            </div>
+
+            <div class="input-group">
+                <label for="passwd">{{ form.passwd.label }}</label>
+                {{ form.passwd(class="form-control", size=30) }}
+            </div>
+
+            <div class="input-group">
+                <label for="passwd_confirm">{{ form.passwd_confirm.label }}</label>
+                {{ form.passwd_confirm(class="form-control", size=30) }}
+            </div>
+
+            <div class="button-container"> <!-- Button container for styling and positioning -->
+                {{ form.submit(class_='login-button') }}
+            </div>
+        </form>
+    </div>
+{% endblock %}
