@@ -9,17 +9,12 @@ class SignUpForm(FlaskForm):
     email_address = StringField('Email')
     passwd = PasswordField('Password', validators=[DataRequired()])
     passwd_confirm = PasswordField('Confirm Password', validators=[DataRequired()])
-    submit = SubmitField('Confirm')
-    
-class SignInForm(FlaskForm):
-    id = StringField('Id', validators=[DataRequired()])
-    passwd = PasswordField('Password', validators=[DataRequired()])
-    submit = SubmitField('Confirm')
+    submit = SubmitField('Create Account')
     
 class HomeForm(FlaskForm):
     id = StringField('Id', validators=[DataRequired()])
     passwd = PasswordField('Password', validators=[DataRequired()])
-    submit = SubmitField('Confirm')
+    submit = SubmitField('Sign In')
     
     
 class BeatForm(FlaskForm):
@@ -44,3 +39,7 @@ class ResetPasswordForm(FlaskForm):
     submit = SubmitField('Reset Password')
     email = EmailField('Email')
     
+class MyProfileForm(FlaskForm):
+    bio = TextAreaField('Bio', default='')
+    profile_pic = FileField('Profile Picture', validators=[FileAllowed(['jpg', 'png'], 'Images only!')])
+    submit = SubmitField('Update Profile')

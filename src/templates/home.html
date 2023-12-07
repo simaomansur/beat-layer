@@ -4,7 +4,6 @@
     <div class="login-container">
         <h2>Welcome to Beat Layer!</h2>
         <h3>Have an account? Log in below.</h3>
-        <h4>Or, go ahead and check out some <a href="{{ url_for('beats') }}">beats</a></h4>
 
         <form action="{{ url_for('home') }}" method="post">
             {{ form.hidden_tag() }}
