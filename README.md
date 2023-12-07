@@ -384,20 +384,23 @@ added genres drop down menu
 - added search by genre functionality
 - updated read me to feature information about the project
 
-# Parker 12/6&7:
-12/6:
+# Parker:
+12/6/23:
 - added profile pic
 -working forgot password
 -lots of styling
 - display profile pic on beat w/ sql join
 
-12/7
+12/7/23
 -download the beat from beat detail
 - like the beat from detail
 -lots of new genres
 -pep8 formatting for routes.py
 - fixed JPEG glitch
 
+# Simao - 12/7/23:
+- big update to read me
+- coverage testing finished
 
 # Needed Changes
 ## Parker
@@ -422,9 +425,9 @@ added genres drop down menu
 - Test coverage report must be generated using Python's coverage.
 
 To-Do before tomorrow ends:
-•	Fix test to work with coverage
+•	Fix test to work with coverage (DONE)
 •	Docker
-•	Make sure requirements is up to date
+•	Make sure requirements is up to date (DONE)
 •	How to deploy!!
 
 ```
