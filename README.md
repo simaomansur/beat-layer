@@ -388,6 +388,8 @@ added genres drop down menu
 - like the beat from detail
 -lots of new genres
 -pep8 formatting for routes.py
+- fixed JPEG glitch
+
 
 # Needed Changes
 ## Parker
