@@ -345,9 +345,29 @@ flask run
 7. Open the application in your browser.
 http://127.0.0.1:5000
 8. To stop the application, press Ctrl+C in terminal.
-9. HAVE FUN!
+
+### How to deploy the application with Docker
+
+1. Open Docker Desktop.
+2. Build the image.
+```
+
+docker build -t beat-layer .
 
 ```
+3. Run the container.
+```
+
+docker run -p 4000:5000 -e SECRET_KEY='your_secret_key' beat-layer
+
+```
+4. Open the application in your browser.
+http://localhost:4000
+
+# Have fun!
+
+```
+
 
 # Parker - 11/20/23 
 ## before running the app:
