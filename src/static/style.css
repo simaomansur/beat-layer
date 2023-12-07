@@ -70,7 +70,7 @@ h1 {
 }
 
 h2 {
-  color: rgba(69, 69, 230, 0.76);
+  color: rgba(214, 214, 243, 0.76);
   font-size: 40px;
   margin: auto;
   /* disable text wrapping */
@@ -292,6 +292,7 @@ input[type="text"]::placeholder {
   /* ... existing styles ... */
   display: flex;
   flex-direction: column;
+  background-color: #333333bb;
 }
 
 .beat-card-likes span {
@@ -312,6 +313,13 @@ input[type="text"]::placeholder {
   display: flex;
   justify-content: space-between; /* This will space out the like and delete buttons */
   overflow: hidden; /* Contains floated elements within the beat-card-actions div */
+}
+
+.content-box {
+  background-color: #20202062; /* Dark background */
+  color: #ffffff; /* Light text */
+  padding: 20px;
+  margin-bottom: 20px;
 }
 
 .login-button .signup-form {

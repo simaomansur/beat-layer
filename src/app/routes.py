@@ -151,7 +151,9 @@ def add_comment(beat_id):
 @login_required
 def beat_user(user_id):
     beats = Beat.query.filter_by(artist=user_id).all()
-    return render_template('beats.html', beats=beats)
+    beat_tuples = Beat.query.filter_by(artist=user_id).join(User, User.id == Beat.artist).add_columns(User.profile_pic).all()
+    beats_with_pics = [{'beat': beat, 'profile_pic': profile_pic} for beat, profile_pic in beat_tuples]
+    return render_template('beats.html', beats=beats_with_pics, user=User.query.get(user_id))
 
 @login_required
 @app.route('/beat_user/<string:user_id>/delete/<string:beat_id>', methods=['POST'])
