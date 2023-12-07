@@ -347,6 +347,8 @@ http://127.0.0.1:5000
 8. To stop the application, press Ctrl+C in terminal.
 9. HAVE FUN!
 
+```
+
 # Parker - 11/20/23 
 ## before running the app:
     export SECRET_KEY="pikachu" (mac) / $env:SECRET_KEY="pikachu" (windows)
