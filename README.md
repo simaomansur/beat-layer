@@ -376,6 +376,19 @@ added genres drop down menu
 - added search by genre functionality
 - updated read me to feature information about the project
 
+# Parker 12/6&7:
+12/6:
+- added profile pic
+-working forgot password
+-lots of styling
+- display profile pic on beat w/ sql join
+
+12/7
+-download the beat from beat detail
+- like the beat from detail
+-lots of new genres
+-pep8 formatting for routes.py
+
 # Needed Changes
 ## Parker
 - update the beat cards (DONE)
